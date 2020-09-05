@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { DataService } from 'src/app/services/data.service';
+import { Usuario } from 'src/app/interfaces/usuario';
 
 @Component({
   selector: 'app-login',
@@ -8,12 +9,13 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  nombre: string
-  usuario = {
+  nombre: string;
+  usuario: Usuario = {
+    id: 0,
     email: '',
-    password: ''
+    pass: ''
   };
-  pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$";  
+  pattern = "^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$";
   mensaje: string;
 
   constructor(public toastController: ToastController, private dataService: DataService) { }
@@ -21,18 +23,26 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  onSubmitTemplate()
-  {
+  onSubmitTemplate() {
     console.log('Form submit');
-    console.log(this.usuario);
-    if(this.dataService.login(this.usuario.email,this.usuario.password))
+
+    if (this.dataService.login(this.usuario)) 
     {
+      console.log("Success");
       this.mensaje = "Login correcto";
     }
-    else
+    else 
     {
+      console.log("Failed");
       this.mensaje = "Login denegado";
     }
+
+    this.usuario = 
+    {
+      id: 0,
+      email: '',
+      pass: ''
+    };
     this.presentToast();
   }
 
