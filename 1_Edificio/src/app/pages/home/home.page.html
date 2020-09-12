@@ -1,9 +1,41 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header titulo="Inicio"></app-header>
 
-<ion-content>
+<ion-content class="fondo">
+
+
+  <!-- <ion-button class="ion-activatable ripple-parent" routerLink="/login" routerLinkActive="router-link-active">
+    <ion-icon slot="start" name="person"></ion-icon>
+    Login
+  </ion-button>
+  <ion-button slot="end" class="text-small" routerLink="/registro" size="small" fill="clear" shape="round">
+    Registrarse
+  </ion-button> -->
+ 
+
+  <ion-card class="contenido">
+
+    <ion-card-header >
+      <ion-card-title color="light" class="icon">
+        <ion-icon name="people-circle-outline"></ion-icon>
+      </ion-card-title>
+  
+    </ion-card-header>
+
+    <ion-card-content >
+
+      <ion-button class="ion-activatable ripple-parent text-big" 
+                  expand="block" size="large" 
+                  routerLink="/login"
+                  routerLinkActive="router-link-active">
+        <ion-icon slot="start" name="person"></ion-icon>
+        Login
+      </ion-button>
+
+      <ion-button color="light" slot="end" class="text-small" routerLink="/registro" 
+      size="small"  shape="round">
+        Registrarse
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>
