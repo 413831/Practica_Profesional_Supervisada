@@ -1,7 +1,8 @@
 {
   "name": "alarmaRobo",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }
