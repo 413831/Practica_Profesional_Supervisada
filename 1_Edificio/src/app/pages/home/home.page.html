@@ -2,18 +2,6 @@
 
 <ion-content class="fondo">
 
-
-  <!-- <ion-button class="ion-activatable ripple-parent" routerLink="/login" routerLinkActive="router-link-active">
-    <ion-icon slot="start" name="person"></ion-icon>
-    Login
-  </ion-button>
-  <ion-button slot="end" class="text-small" routerLink="/registro" size="small" fill="clear" shape="round">
-    Registrarse
-  </ion-button> -->
-
-
- 
-
   <ion-card class="contenido">
 
     <ion-card-header >
@@ -29,12 +17,11 @@
   
     </ion-card-header>
 
-    <ion-card-content >
+    <ion-card-content mode="ios">
 
       <ion-button class="ion-activatable ripple-parent text-big" 
                   expand="block" size="large" 
-                  routerLink="/login"
-                  routerLinkActive="router-link-active">
+                  (click)="presentAlertPrompt()">
         <ion-icon slot="start" name="person"></ion-icon>
         Login
       </ion-button>

@@ -1,6 +1,6 @@
 <app-header titulo="Registro"></app-header>
 
-<ion-content class="fondo">
+<ion-content class="fondo" mode="ios">
 
   <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()" >
 
@@ -28,7 +28,7 @@
 
       <ion-item color="light" class="contenido">
         <ion-label position="floating">Confirme su contraseña</ion-label>
-        <ion-input type="password" min="6"  name="password" [(ngModel)]="confirmacionPass"
+        <ion-input type="password" minlength="6"  name="password" [(ngModel)]="confirmacionPass"
           required>
         </ion-input>
       </ion-item>
