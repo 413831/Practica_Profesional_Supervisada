@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "edificio",
+  "appId": "io.ionic.relevamiento",
+  "appName": "Inspector",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

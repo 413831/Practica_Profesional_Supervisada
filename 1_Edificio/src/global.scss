@@ -47,7 +47,18 @@
 
 }
 
-.contenido{
+.contenido
+{
     background: rgba(255,255,255,0.5);
     opacity: 90%;
+    color: black;
+}
+
+ion-card-title{
+    color: black !important;
+}
+
+ion-card-subtitle
+{
+    color: black !important;
 }
