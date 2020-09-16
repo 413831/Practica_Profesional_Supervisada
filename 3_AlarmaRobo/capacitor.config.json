@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "alarmaRobo",
+  "appId": "io.ionic.antirobo",
+  "appName": "Alarmator",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
