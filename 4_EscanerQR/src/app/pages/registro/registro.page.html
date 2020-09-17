@@ -1,14 +1,14 @@
 <app-header titulo="Nuevo usuario"></app-header>
 
-<ion-content>
+<ion-content color="dark">
 
-  <ion-list>
+  <ion-list color="dark">
 
-    <ion-list-header>
+    <ion-list-header color="dark">
       <ion-label>Nombre: {{ nombre || 'Sin nombre' }}</ion-label>
     </ion-list-header>
 
-    <ion-item>
+    <ion-item color="dark">
       <ion-label position="floating">Label</ion-label>
       <ion-input type="text" placeholder="Awesome Input" [(ngModel)]="nombre">
       </ion-input>
@@ -16,29 +16,29 @@
 
   </ion-list>
 
-  <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()">
+  <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()" color="dark">
 
     <ion-list>
 
-      <ion-list-header>
+      <ion-list-header color="dark">
         <ion-label>Formulario template: Valido {{ formulario.valid }}</ion-label>
       </ion-list-header>
 
-      <ion-item>
+      <ion-item color="dark">
         <ion-label position="floating">Email</ion-label>
         <ion-input type="email" placeholder="Ingrese email" name="email" [(ngModel)]="usuario.email"
           pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required>
         </ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item color="dark">
         <ion-label position="floating">Password</ion-label>
         <ion-input type="password" placeholder="Ingrese password" name="password" [(ngModel)]="usuario.pass"
           required>
         </ion-input>
       </ion-item>
 
-      <ion-item color="light" class="contenido">
+      <ion-item color="dark" class="contenido">
         <ion-label position="floating">Confirme su contraseña</ion-label>
         <ion-input type="password" minlength="6"  name="password" [(ngModel)]="confirmacionPass"
           required>
@@ -47,7 +47,7 @@
 
     </ion-list>
 
-    <ion-button fill="solid" expand="full" type="submit" [disabled]="formulario.invalid">
+    <ion-button color="tertiary" fill="solid" expand="full" type="submit" [disabled]="formulario.invalid">
       Enviar
     </ion-button>
 

@@ -6,14 +6,16 @@
     <strong>Canutix</strong>
     <p>Tu billetera más segura</p>
 
-    <ion-segment  (ionChange)="segmentChanged($event)">
-      <ion-segment-button value="login">
-        <ion-label>Entrar</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="registro">
-        <ion-label>Registrarse</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+
+    <ion-button color="tertiary" strong="true" size="medium"
+                [routerLink]="['/login']" >
+                Iniciar sesión
+    </ion-button>
+    <ion-button color="tertiary" strong="true" size="medium"
+                [routerLink]="['/registro']">
+                Registrarse
+    </ion-button>
+
 
   </div>
 </ion-content>
