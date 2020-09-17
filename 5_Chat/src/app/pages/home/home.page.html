@@ -1,0 +1,29 @@
+<app-header titulo="Inicio"></app-header>
+
+<ion-content color="dark">
+
+  <div>
+    <ion-toolbar color="dark">
+      <h1>
+        <ion-title translucent ><strong>Chamuyapp</strong> <br>
+          <ion-icon color="dark" slot="end" name="chatbox-ellipses-outline"></ion-icon>
+        </ion-title>
+      </h1>
+      <ion-title>La red social más buenarda.</ion-title>
+      
+    </ion-toolbar>
+
+    <ion-img class="max-img" [src]="imgSrc"></ion-img>
+
+    <ion-button color="danger" size="large" [routerLink]="['/login']" expand="block">
+      <ion-icon slot="icon-only" name="log-in-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button color="danger" size="large" [routerLink]="['/registro']" expand="block">
+      <ion-icon slot="icon-only" name="person-add-outline"></ion-icon>
+    </ion-button>
+
+  </div>
+
+
+</ion-content>
