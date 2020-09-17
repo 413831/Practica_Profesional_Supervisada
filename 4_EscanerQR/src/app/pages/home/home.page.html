@@ -1,0 +1,19 @@
+<app-header titulo="Inicio"></app-header>
+
+<ion-content [fullscreen]="true" color="dark" >
+
+  <div id="container">
+    <strong>Canutix</strong>
+    <p>Tu billetera más segura</p>
+
+    <ion-segment  (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="login">
+        <ion-label>Entrar</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="registro">
+        <ion-label>Registrarse</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+  </div>
+</ion-content>

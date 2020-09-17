@@ -5,18 +5,18 @@ import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-registro',
+  templateUrl: './registro.page.html',
+  styleUrls: ['./registro.page.scss'],
 })
-export class LoginPage implements OnInit {
-  usuario: Usuario = new Usuario();
+export class RegistroPage implements OnInit {
+  usuario: Usuario = new  Usuario();
   pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$";  
   confirmacionPass: string;
   mensaje: string;
 
-  constructor(private dataService: DataService,
-              public toastController: ToastController, 
+  constructor(public toastController: ToastController, 
+              private dataService: DataService,
               private router: Router) { }
 
   ngOnInit() {
@@ -24,20 +24,30 @@ export class LoginPage implements OnInit {
 
   onSubmitTemplate()
   {
-    if(this.usuario)
+    console.log('Form submit');
+    console.log(this.usuario);
+
+    if(this.usuario.pass != this.confirmacionPass)
     {
-      this.dataService.login(this.usuario).then(res => {
-        console.log("Sesión iniciada");
+      this.mensaje = "Las contraseñas no coinciden";
+      this.presentToast();
+    }
+    else
+    {
+      this.dataService.registrar(this.usuario).then(res => {
+        console.log("Usuario registrado");
         this.mensaje = "Se ha registrado exitosamente";
-        this.router.navigate(['/menu']);
+        this.router.navigate(['/home']);
         
       }, error => {
         console.error(error);
         this.mensaje = error.message;
       }).finally( () => this.presentToast());
+    
     }
     
   }
+  
 
   async presentToast() {
     const toast = await this.toastController.create({
