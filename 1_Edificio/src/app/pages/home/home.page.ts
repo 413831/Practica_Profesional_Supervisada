@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
-import { Usuario } from 'src/app/interfaces/usuario';
+import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -11,11 +11,9 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class HomePage implements OnInit {
   mensaje: string;
-  usuario: Usuario = {
-    id :0,
-    email: '',
-    pass: ''
-  };
+  usuario: Usuario = new Usuario();
+  rol: string = "";
+  pattern = new RegExp(/^[a-zA-Z0-9\-\.]+@[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,5}$/); 
 
   constructor(public alertCtrl: AlertController, 
               private dataService: DataService,
@@ -36,7 +34,6 @@ export class HomePage implements OnInit {
           name: 'email',
           type: 'text',
           placeholder: 'Ingrese su email',
-          
         },
         {
           name: 'password',
@@ -44,7 +41,8 @@ export class HomePage implements OnInit {
           placeholder: 'Ingrese su contraseña',
           attributes: {
             minLength: 6
-          }
+          },
+          min: 6,
         }
       ],
       buttons: [
@@ -58,13 +56,22 @@ export class HomePage implements OnInit {
         }, {
           text: 'Ok',
           handler: (data) => {
-            this.usuario.email = data.email;
-            this.usuario.pass = data.password;
-            this.dataService.login(this.usuario).then(()=>{
-              this.mensaje = "Sesión iniciada.";
-              this.presentToast();
-              this.router.navigate(['/menu']);
-            });
+            if(this.isEmail(data.email) && 
+              this.isPassword(data.password))
+            {
+              this.usuario.email = data.email;
+              this.usuario.pass = data.password;
+              this.dataService.login(this.usuario).then(()=>{
+                this.presentToast("Sesión iniciada.");
+                this.router.navigate(['/menu']);
+              }).
+              catch( err => this.presentToast(err));
+            }
+            else
+            {
+              this.presentToast("Revise su email y contraseña");
+            }
+            
           }
         }
       ]
@@ -73,12 +80,49 @@ export class HomePage implements OnInit {
     await alert.present();
   }
 
-  async presentToast() {
+  async presentToast(message: string) {
     const toast = await this.toastController.create({
-      message: this.mensaje,
+      message,
       duration: 2000
     });
     toast.present();
   }
+
+
+  iniciarSesion(event)
+  {
+     this.rol = event.detail.value;
+  
+      switch(this.rol)
+      {
+        case 'Admin' :
+          break;
+        case 'Tester' :
+          break;
+        case 'Usuario' :
+          break;
+      }
+      this.router.navigate(['/menu']);
+
+  }
+
+  isEmail(email)
+  {
+    if(this.pattern.test(email))
+    {
+      return true;
+    }
+    return false;
+  }
+
+  isPassword(password)
+  {
+    if(password.length >= 6)
+    {
+      return true;
+    }
+    return false;
+  }
+
 
 }

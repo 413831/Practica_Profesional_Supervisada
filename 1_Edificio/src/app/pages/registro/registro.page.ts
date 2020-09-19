@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { Usuario } from 'src/app/interfaces/usuario';
+import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -11,11 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class RegistroPage implements OnInit {
   nombre: string;
-  usuario: Usuario = {
-    id :0,
-    email: '',
-    pass: ''
-  };
+  usuario: Usuario = new Usuario();
   pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$";  
   confirmacionPass: string;
   mensaje: string;

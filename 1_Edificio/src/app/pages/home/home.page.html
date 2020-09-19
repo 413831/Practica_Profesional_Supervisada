@@ -19,11 +19,6 @@
 
     <ion-card-content mode="ios" class="home">
 
-
-     
-
-
-
       <ion-button class="ion-activatable ripple-parent text-big" 
                   expand="block" size="large" 
                   (click)="presentAlertPrompt()">
@@ -37,5 +32,18 @@
       </ion-button>
     </ion-card-content>
   </ion-card>
+
+  <ion-segment (ionChange)="iniciarSesion($event)" mode="ios" color="dark">
+    <ion-segment-button value="Admin">
+      <ion-label>Admin</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Tester">
+      <ion-label>Tester</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Usuario">
+      <ion-label>Usuario</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
 
 </ion-content>
