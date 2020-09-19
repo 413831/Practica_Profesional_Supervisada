@@ -20,7 +20,8 @@ export class HomePage implements OnInit {
   constructor(public alertCtrl: AlertController, 
               private dataService: DataService,
               public toastController: ToastController,
-              private router: Router) { }
+              private router: Router) {
+               }
 
   ngOnInit() {
   }
@@ -28,7 +29,7 @@ export class HomePage implements OnInit {
   async presentAlertPrompt() {
     const alert = await this.alertCtrl.create({
       translucent: true,
-      header: 'Ingrese el titulo',
+      header: 'Iniciar sesión',
       mode: "ios",
       inputs: [
         {
@@ -39,7 +40,7 @@ export class HomePage implements OnInit {
         },
         {
           name: 'password',
-          type: 'text',
+          type: 'password',
           placeholder: 'Ingrese su contraseña',
           attributes: {
             minLength: 6

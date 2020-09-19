@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { TarjetaComponent } from './tarjeta/tarjeta.component';
 import { IonicModule } from '@ionic/angular';
+import { SplashComponent } from './splash/splash.component';
 
 
 
 @NgModule({
   declarations: [
     HeaderComponent, 
-    TarjetaComponent
+    TarjetaComponent,
+    SplashComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { IonicModule } from '@ionic/angular';
   ],
   exports: [
     HeaderComponent,
-    TarjetaComponent
+    TarjetaComponent,
+    SplashComponent
   ]
 })
 export class ComponentsModule { }
