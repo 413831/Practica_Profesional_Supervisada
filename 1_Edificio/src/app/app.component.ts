@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, enableProdMode } from '@angular/core';
 
 import { ModalController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashComponent } from './components/splash/splash.component';
 import { Router } from '@angular/router';
+
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-root',
@@ -25,19 +28,9 @@ export class AppComponent {
 
   }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      // this.splashScreen.hide();
-    });
-  }
-
-
-
   async presentModal() {
 
     this.statusBar.styleDefault();
-
 
     const modal = await this.modalCtrl.create({
       component: SplashComponent,
