@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmailValidator } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
-import { Usuario } from 'src/app/interfaces/usuario';
+import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -14,11 +14,7 @@ export class InicioPage implements OnInit {
   login = "../assets/img/login.svg";
   registro = "../assets/img/register.svg";
   mensaje: string;
-  usuario: Usuario = {
-    id :0,
-    email: '',
-    pass: ''
-  };
+  usuario: Usuario = new Usuario();
 
   constructor(public alertCtrl: AlertController, 
               private dataService: DataService,

@@ -1,3 +1,4 @@
+
 export class Usuario
 {
     id: string;
@@ -11,5 +12,5 @@ export class Usuario
         usuario.email = email;
 
         return usuario;
-    }   
+    } 
 }
