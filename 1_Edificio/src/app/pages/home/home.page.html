@@ -33,17 +33,23 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-segment (ionChange)="iniciarSesion($event)" mode="ios" color="dark" class="accesos">
-    <ion-segment-button value="Admin">
-      <ion-label>Admin</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Tester">
-      <ion-label>Tester</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Usuario">
-      <ion-label>Usuario</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-
+  
 
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-segment (ionChange)="iniciarSesion($event)" mode="ios" color="dark" class="accesos">
+      <ion-segment-button value="Admin">
+        <ion-label>Admin</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Tester">
+        <ion-label>Tester</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Usuario">
+        <ion-label>Usuario</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  
+  </ion-toolbar>
+</ion-footer>

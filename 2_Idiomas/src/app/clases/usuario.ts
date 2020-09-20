@@ -6,6 +6,12 @@ export class Usuario
     email: string;
     pass: string;
     rol: string;
+    
+    public Usuario()
+    {
+        this.rol = "Usuario";
+    }
+
 
     public static CrearUsuario(id: string,nombre:string ,email: string,rol:string) : Usuario
     {
