@@ -10,10 +10,10 @@
         <ion-label position="stacked">Ingrese su nombre y apellido</ion-label>
 
         <ion-input type="text" name="nombre" [(ngModel)]="usuario.nombre" 
-                    pattern="^([a-zA-Z]+)$" minlength="2" placeholder="nombre" required>
+                    [pattern]="lettersPattern" minlength="2" placeholder="nombre" required>
         </ion-input>
         <ion-input type="text" name="apellido" [(ngModel)]="usuario.apellido" 
-                    pattern="^([a-zA-Z]+)$" minlength="2" placeholder="apellido" required>
+                    [pattern]="lettersPattern" minlength="2" placeholder="apellido" required>
           </ion-input>
       </ion-item>
 
@@ -21,23 +21,21 @@
         <ion-label  position="stacked">Ingrese su DNI (sólo números)</ion-label>
   
           <ion-input type="number"  name="dni" [(ngModel)]="usuario.dni"
-            pattern="^([0-9]+)$" minlength="7" placeholder="DNI" required>
+            [pattern]="dniPattern" minlength="7" placeholder="DNI" required>
           </ion-input>
       </ion-item>
 
       <ion-item color="medium" class="contenido">
         <ion-label position="stacked">Ingrese su domicilio</ion-label>
-
         <ion-input type="text" name="direccion" [(ngModel)]="usuario.direccion" 
-                    pattern="^([a-zA-Z0-9\ ]+)$" minlength="4" placeholder="domicilio" required>
+                    [pattern]="alphaPattern" minlength="4" placeholder="domicilio" required>
         </ion-input>
       </ion-item>
 
       <ion-item color="medium" class="contenido">
         <ion-label  position="stacked">Ingrese su teléfono (sólo números)</ion-label>
-  
           <ion-input type="number"  name="telefono" [(ngModel)]="usuario.telefono"
-            pattern="^([0-9]+)$" minlength="8" placeholder="telefono" required>
+            [pattern]="phonePattern" minlength="8" placeholder="telefono" required>
           </ion-input>
       </ion-item>
 
@@ -45,7 +43,7 @@
         <ion-label position="stacked">Ingrese su correo electrónico</ion-label>
 
         <ion-input type="email" name="email" [(ngModel)]="usuario.email"
-                  pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" 
+                  [pattern]="emailPattern" 
                   placeholder="email" required>
         </ion-input>
       </ion-item>
