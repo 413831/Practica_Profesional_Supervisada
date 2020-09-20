@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EmailValidator } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, PopoverController, ToastController } from '@ionic/angular';
 import { Usuario } from 'src/app/clases/usuario';
+import { PopinfoComponent } from 'src/app/components/popinfo/popinfo.component';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -19,7 +20,8 @@ export class InicioPage implements OnInit {
   constructor(public alertCtrl: AlertController, 
               private dataService: DataService,
               public toastController: ToastController,
-              private router: Router) { }
+              private router: Router,
+              private popoverCtrl: PopoverController) { }
 
   ngOnInit() {
   }
@@ -182,5 +184,18 @@ export class InicioPage implements OnInit {
       return true;
     }
     return false;
+  }
+
+  async togglePopover( evento )
+  {
+    const popover = await this.popoverCtrl.create({
+      component: PopinfoComponent,
+      event: evento,
+      mode: 'ios'
+    });
+
+    await popover.present();
+
+    // const { data } = await popover.onDidDismiss();
   }
 }
