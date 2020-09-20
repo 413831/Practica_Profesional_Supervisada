@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../clases/usuario';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { database } from 'firebase';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class DataService {
   private usuarios: Usuario[] = [];
   private static idUsuario = 0;
 
-  constructor(private firebaseAuth: AngularFireAuth) 
+  constructor(private firebaseAuth: AngularFireAuth,
+               private storage: Storage) 
   {
   }
 
@@ -21,7 +23,10 @@ export class DataService {
     console.log(usuario);
     return new Promise<any>((resolve, reject) => {
       this.firebaseAuth.signInWithEmailAndPassword(usuario.email, usuario.pass)
-                        .then(response => resolve(response),error => reject(error));
+                        .then(response => {
+                          this.guardarLocal(response.user.uid);
+                          resolve(response);
+                        },error => reject(error));
     });
   }
 
@@ -31,7 +36,7 @@ export class DataService {
       this.firebaseAuth.createUserWithEmailAndPassword(usuario.email, usuario.pass)
                         .then(response => {
                           usuario.pass = null;
-                          this.crear(usuario);
+                          this.crear(usuario, response.user.uid);
                           resolve(response);
                         }, 
                         error => reject(error));
@@ -46,13 +51,22 @@ export class DataService {
   }
 
 
-  public crear(usuario: Usuario): Promise<any>
+  public crear(usuario: Usuario, uid: string): Promise<any>
   {
-    return database().ref('Usuarios')
-              .push()
-              .then((snapshot) => usuario.id = snapshot.key)
+    return database().ref('usuarios/' + uid)
+              .set(usuario)
+              .then(() => usuario.id = uid)
               .then(()=> this.actualizar(usuario))
               .catch(() => console.info("No se pudo realizar alta"));
+  }
+
+  public guardarLocal(id: string)
+  {
+    console.log(id);
+    database().ref('usuarios/' + id).on('value',(snapshot) =>{
+                this.storage.set('usuario', snapshot.val());       
+              });
+               
   }
 
   public leer(): Usuario[]
@@ -60,7 +74,7 @@ export class DataService {
     let usuarios = [];
     console.info("Fetch de todos los Usuarios");
 
-    database().ref('usuario').on('value',(snapshot) => {          
+    database().ref('usuarios').on('value',(snapshot) => {          
         usuarios = [];  
         snapshot.forEach((child) =>{
           var data = child.val();
