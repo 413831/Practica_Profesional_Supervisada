@@ -52,8 +52,22 @@
 
   </ion-list>
 
-  
-
-  
-
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    
+    <ion-segment (ionChange)="iniciarSesion($event)" >
+      <ion-segment-button value="Admin">
+        <ion-label>Admin</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Tester">
+        <ion-label>Tester</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Usuario">
+        <ion-label>Usuario</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+  </ion-toolbar>
+</ion-footer>

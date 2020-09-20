@@ -13,7 +13,7 @@ export const environment = {
     messagingSenderId: "1035173945210",
     appId: "1:1035173945210:web:8a7d55a54e5d5a66ff80c3"
   },
-  usuario: {
+  perfiles: {
     admin: {
       email: "admin@mail.com",
       pass: "sarasa",

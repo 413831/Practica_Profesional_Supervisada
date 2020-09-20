@@ -2,32 +2,48 @@
 
 <ion-content color="dark">
 
-  <ion-list color="dark">
-
-    <ion-list-header color="dark">
-      <ion-label>Nombre: {{ nombre || 'Sin nombre' }}</ion-label>
-    </ion-list-header>
-
-    <ion-item color="dark">
-      <ion-label position="floating">Label</ion-label>
-      <ion-input type="text" placeholder="Awesome Input" [(ngModel)]="nombre">
-      </ion-input>
-    </ion-item>
-
-  </ion-list>
-
   <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()" color="dark">
 
     <ion-list>
 
       <ion-list-header color="dark">
-        <ion-label>Formulario template: Valido {{ formulario.valid }}</ion-label>
+        <ion-label>Datos válidos : {{ formulario.valid }}</ion-label>
       </ion-list-header>
+
+      <ion-item color="dark">
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input type="text" placeholder="Ingrese su nombre" name="nombre" [(ngModel)]="usuario.nombre"
+                  [pattern]="lettersPattern" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item color="dark">
+        <ion-label position="floating">D.N.I. (sólo números)</ion-label>
+        <ion-input type="number" placeholder="Ingrese su número de DNI" name="dni" 
+                  [(ngModel)]="usuario.dni"
+                  [pattern]="dniPattern" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item color="dark">
+        <ion-label position="floating">Domicilio</ion-label>
+        <ion-input type="text" placeholder="Ingrese su domicilio" name="nombre" [(ngModel)]="usuario.domicilio"
+          [pattern]="alphaPattern" required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item color="dark">
+        <ion-label position="floating">Teléfono</ion-label>
+        <ion-input type="number" placeholder="Ingrese su número telefónico" name="nombre" 
+                  [(ngModel)]="usuario.nombre"
+                  [pattern]="phonePattern" required>
+        </ion-input>
+      </ion-item>
 
       <ion-item color="dark">
         <ion-label position="floating">Email</ion-label>
         <ion-input type="email" placeholder="Ingrese email" name="email" [(ngModel)]="usuario.email"
-          pattern="pattern" required>
+          [pattern]="emailPattern" required>
         </ion-input>
       </ion-item>
 
