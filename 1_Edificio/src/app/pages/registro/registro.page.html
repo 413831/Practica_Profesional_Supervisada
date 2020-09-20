@@ -7,26 +7,31 @@
     <ion-list lines="full" class="ion-no-margin"  class="contenido">
 
       <ion-list-header lines="full" mode="ios" >
-        <ion-label class="contenido" translucent >Nuevo usuario
+        <ion-label color="dark" translucent >Nuevo usuario
         </ion-label>
       </ion-list-header>
 
-      <ion-item color="light" class="contenido">
-        <ion-label  position="floating">Ingrese su correo electrónico</ion-label>
-
-        <ion-input type="email"  name="email" [(ngModel)]="usuario.email"
-          pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"  required>
+      <ion-item color="dark" class="contenido">
+        <ion-label  position="floating">Ingrese su nombre de usuario</ion-label>
+        <ion-input type="text"  name="nombre" [(ngModel)]="usuario.nombre" required>
         </ion-input>
       </ion-item>
 
-      <ion-item color="light" class="contenido"> 
+      <ion-item color="dark" class="contenido">
+        <ion-label  position="floating">Ingrese su correo electrónico</ion-label>
+        <ion-input type="email"  name="email" [(ngModel)]="usuario.email"
+          [pattern]="patron"  required>
+        </ion-input>
+      </ion-item>
+
+      <ion-item color="dark" class="contenido"> 
         <ion-label position="floating">Ingrese su contraseña</ion-label>
         <ion-input type="password" minlength="6"  name="password" [(ngModel)]="usuario.pass"
           required>
         </ion-input>
       </ion-item>
 
-      <ion-item color="light" class="contenido">
+      <ion-item color="dark" class="contenido">
         <ion-label position="floating">Confirme su contraseña</ion-label>
         <ion-input type="password" minlength="6"  name="password" [(ngModel)]="confirmacionPass"
           required>
