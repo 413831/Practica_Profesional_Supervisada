@@ -12,6 +12,23 @@ export const environment = {
     storageBucket: "web-apps---practica.appspot.com",
     messagingSenderId: "1035173945210",
     appId: "1:1035173945210:web:8a7d55a54e5d5a66ff80c3"
+  },
+  perfil: {
+    admin: {
+      email: "admin@mail.com",
+      pass: "sarasa",
+      rol : "Administrador"
+    },
+    tester: {
+      email: "tester@mail.com",
+      pass: "sarasa",
+      rol : "Tester"
+    },
+    usuario: {
+      email: "usuario@mail.com",
+      pass : "sarasa",
+      rol : "Usuario"
+    }
   }
 };
 

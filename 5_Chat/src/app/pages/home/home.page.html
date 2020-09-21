@@ -2,6 +2,26 @@
 
 <ion-content color="dark">
 
+  
+  <ion-fab vertical="top" horizontal="end" slot="fixed" >
+    <ion-fab-button color="tertiary">
+      <ion-icon name="log-in-sharp"></ion-icon>
+    </ion-fab-button>
+
+    <ion-fab-list side="bottom">
+      <ion-fab-button (click)="iniciarSesion('Admin')" color="dark">
+        <ion-icon name="construct-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="iniciarSesion('Tester')" color="medium">
+        <ion-icon name="bug-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="iniciarSesion('Usuario')" color="primary">
+        <ion-icon name="body-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+
+  </ion-fab>
+
   <div>
     <ion-toolbar color="dark">
       <h1>
