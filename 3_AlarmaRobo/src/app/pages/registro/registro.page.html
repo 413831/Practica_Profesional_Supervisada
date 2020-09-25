@@ -4,9 +4,9 @@
 
   <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()" class="contenido">
 
-    <ion-list lines="full" class="ion-no-margin" class="contenido">
+    <ion-list  inset="false" class="ion-no-margin" class="contenido">
 
-      <ion-item color="medium" class="contenido">
+      <ion-item color="dark" class="contenido">
         <ion-label position="stacked">Ingrese su nombre y apellido</ion-label>
 
         <ion-input type="text" name="nombre" [(ngModel)]="usuario.nombre" 
@@ -17,7 +17,7 @@
           </ion-input>
       </ion-item>
 
-      <ion-item color="medium" class="contenido">
+      <ion-item color="dark" class="contenido">
         <ion-label  position="stacked">Ingrese su DNI (sólo números)</ion-label>
   
           <ion-input type="number"  name="dni" [(ngModel)]="usuario.dni"
@@ -25,21 +25,21 @@
           </ion-input>
       </ion-item>
 
-      <ion-item color="medium" class="contenido">
+      <ion-item color="dark" class="contenido">
         <ion-label position="stacked">Ingrese su domicilio</ion-label>
         <ion-input type="text" name="direccion" [(ngModel)]="usuario.direccion" 
                     [pattern]="alphaPattern" minlength="4" placeholder="domicilio" required>
         </ion-input>
       </ion-item>
 
-      <ion-item color="medium" class="contenido">
+      <ion-item color="dark" class="contenido">
         <ion-label  position="stacked">Ingrese su teléfono (sólo números)</ion-label>
           <ion-input type="number"  name="telefono" [(ngModel)]="usuario.telefono"
             [pattern]="phonePattern" minlength="8" placeholder="telefono" required>
           </ion-input>
       </ion-item>
 
-      <ion-item color="medium" class="contenido">
+      <ion-item color="dark" class="contenido">
         <ion-label position="stacked">Ingrese su correo electrónico</ion-label>
 
         <ion-input type="email" name="email" [(ngModel)]="usuario.email"
@@ -48,14 +48,14 @@
         </ion-input>
       </ion-item>
 
-      <ion-item color="medium" class="contenido">
+      <ion-item color="dark" class="contenido">
         <ion-label position="stacked">Ingrese su contraseña</ion-label>
         <ion-input type="password" minlength="6" name="password" [(ngModel)]="usuario.pass" 
                     placeholder="nueva contraseña" required>
         </ion-input>
       </ion-item>
 
-      <ion-item color="medium" class="contenido">
+      <ion-item color="dark" class="contenido">
         <ion-label position="stacked">Confirme su contraseña</ion-label>
         <ion-input type="password" minlength="6" name="password" [(ngModel)]="confirmacionPass"
                   placeholder="repita contraseña" required>

@@ -69,6 +69,11 @@ export class DataService {
                
   }
 
+  public obtenerLocal()
+  {
+    return this.storage.get('usuario');
+  }
+
   public leer(): Usuario[]
   {
     let usuarios = [];

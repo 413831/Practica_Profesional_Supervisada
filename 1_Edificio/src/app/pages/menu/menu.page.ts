@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Plugins, CameraResultType } from '@capacitor/core';
+import { Imagen } from 'src/app/clases/imagen';
 
 const { Camera } = Plugins;
 
@@ -9,6 +10,7 @@ const { Camera } = Plugins;
   styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnInit {
+  imagenes: Imagen[] = [];
   imageElement;
 
   constructor() { }
