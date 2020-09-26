@@ -1,45 +1,39 @@
 <app-header titulo="Menu principal"></app-header>
 
 
-<ion-content>
+<ion-content color="light">
 
-  <ion-card color="danger">
-    <ion-card-content class="ion-activatable">
 
-      <ion-item-divider class="titulos">
-        <span><b>Animales</b></span>
-      </ion-item-divider>
-      <!-- <ion-img [src]="registro" (click)="promptSignUp()"></ion-img> -->
 
-      <ion-ripple-effect type="bounded">
-      </ion-ripple-effect>
-    </ion-card-content>
-  </ion-card>
+  <ion-slides pager="true" class="slide-full" >
+    <ion-slide *ngFor="let slide of slides">
 
-  <ion-card color="danger">
-    <ion-card-content class="ion-activatable">
+      <div class="ion-activatable">
+        <img [src]="slide.img" class="slide-image" [routerLink]="slide.route">
 
-      <ion-item-divider class="titulos">
-        <span><b>Números</b></span>
-      </ion-item-divider>
-      <!-- <ion-img [src]="registro" ></ion-img> -->
+        <ion-ripple-effect type="bounded"></ion-ripple-effect>
+      </div>
 
-      <ion-ripple-effect type="bounded">
-      </ion-ripple-effect>
-    </ion-card-content>
-  </ion-card>
+    </ion-slide>
 
-  <ion-card color="danger">
-    <ion-card-content class="ion-activatable">
+  </ion-slides>
 
-      <ion-item-divider class="titulos">
-        <span><b>Días</b></span>
-      </ion-item-divider>
-      <!-- <ion-img [src]="registro" ></ion-img> -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="danger">
+    <ion-fab-button>
+      <img [src]="idiomaSeleccionado.bandera" alt="idiomaSeleccionado.idioma">
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button>
+        <img [src]="banderas[0].img" alt="banderas[0].idioma">
+      </ion-fab-button>
+      <ion-fab-button>
+        <img [src]="banderas[1].img" alt="banderas[1].idioma">
+      </ion-fab-button>
+      <ion-fab-button>
+        <img [src]="banderas[2].img" alt="banderas[2].idioma">
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 
-      <ion-ripple-effect type="bounded">
-      </ion-ripple-effect>
-    </ion-card-content>
-  </ion-card>
 
 </ion-content>

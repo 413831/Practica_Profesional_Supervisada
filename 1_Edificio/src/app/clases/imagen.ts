@@ -1,5 +1,6 @@
 export class Imagen
 {
+    id: string;
     url: string;
     usuario: string;
     fecha: Date;

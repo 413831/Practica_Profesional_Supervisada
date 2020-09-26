@@ -3,6 +3,7 @@ import { Plugins, CameraResultType } from '@capacitor/core';
 import { Imagen, TipoImagen } from 'src/app/clases/imagen';
 import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
+import { ImagenService } from 'src/app/services/imagen.service';
 
 const { Camera } = Plugins;
 
@@ -16,7 +17,8 @@ export class BonitasPage implements OnInit {
   imagenes: Imagen[] = [];
   imageElement;
 
-  constructor(private dataService: DataService) 
+  constructor(private dataService: DataService,
+            private imagenService: ImagenService) 
   {
     this.usuario = new Usuario();
     this.dataService.obtenerLocal()
