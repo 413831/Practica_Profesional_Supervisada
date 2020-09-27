@@ -1,10 +1,11 @@
 import { AfterContentChecked, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActionSheetController, LoadingController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, Platform, ToastController } from '@ionic/angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
 import { Observable } from 'rxjs';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { TestBed } from '@angular/core/testing';
 
 @Component({
   selector: 'app-menu',
@@ -12,29 +13,38 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnDestroy {
-  usuario: Usuario;
+  usuario: Usuario = new Usuario();
+  qrScan: any;
+  dataQR: any;
+  test: string;
+  codigos : string[] = [];
 
-  constructor(private dataService: DataService,
+  constructor(public platform: Platform,
+              private dataService: DataService,
               private qrScanner: QRScanner,
               public actionSheetController: ActionSheetController,
-              public loadingController: LoadingController) 
+              public loadingController: LoadingController,
+              private toastController: ToastController) 
   {
     console.log("Constructor");
     // this.dataService.obtenerLocal().then( data => this.usuario = data);
-   this.presentLoading(); 
+    this.presentLoading("Cargando datos..."); 
+    this.platform.backButton.subscribeWithPriority(0,()=>{
+      document.getElementsByTagName("body")[0].style.opacity = "1";
+      this.qrScan.unsubscribe();
+    });              
   }
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-    this.usuario = null;
-    
+    this.usuario = null; 
   }
 
-  async presentLoading() {
+  async presentLoading(message) {
     const loading = await this.loadingController.create({
-      message: 'Cargando datos...',
-      duration: 2000,
+      message,
+      duration: 1000,
     });
     await loading.present();
 
@@ -80,49 +90,41 @@ export class MenuPage implements OnDestroy {
   leerQR() 
   {
     console.log("Leer QR");
+    this.codigos = this.usuario.codigos;
     
-    this.qrScanner.useBackCamera();
-    this.qrScanner.show();
-    let scanSub = this.qrScanner.scan().subscribe((text: string) => 
-                        {
-                          console.log('Scanned something', text);
-                          
-                          this.qrScanner.show();
-                          //this.qrScanner.hide(); // hide camera preview
-                          scanSub.unsubscribe(); // stop scanning
-                        });
-    
-// Make the webview transparent so the video preview is visible behind it.
+    this.qrScanner.prepare().then((status:QRScannerStatus) => {
+      if(status.authorized)
+      {
+        this.qrScanner.show();
+        document.getElementsByTagName("body")[0].style.opacity = "0";
 
-    // this.qrScanner.prepare()
-    //     .then((status: QRScannerStatus) => 
-    //     {
-    //       if (status.authorized) 
-    //       {
-    //         // camera permission was granted
-    //         // start scanning
-    //         let scanSub = this.qrScanner.scan().subscribe((text: string) => 
-    //         {
-    //           console.log('Scanned something', text);
+        this.qrScan = this.qrScanner.scan().subscribe((scan) =>
+        {
+          this.presentToast(`El código escaneado es : ${scan}`);
+          console.log(scan);
+          this.qrScanner.show();
+          document.getElementsByTagName("body")[0].style.opacity = "1";
 
-    //           this.test = text;
-    //           this.qrScanner.hide(); // hide camera preview
-    //           scanSub.unsubscribe(); // stop scanning
-    //         });
-
-    //       } 
-    //       else if (status.denied) 
-    //       {
-    //         // camera permission was permanently denied
-    //         // you must use QRScanner.openSettings() method to guide the user to the settings page
-    //         // then they can grant the permission from there
-    //       } 
-    //       else 
-    //       {
-    //         // permission was denied, but not permanently. You can ask for permission again at a later time.
-    //       }
-    //   })
-    //   .catch((e: any) => console.log('Error is', e));
+          if(this.validarCodigo(scan))
+          {
+            // Validacion contra DB
+            this.dataService.fetchQR(scan)
+                .then(snapshot =>{
+                    this.dataQR = snapshot.val().valor;
+                    this.usuario.codigos.push(scan);
+                    this.usuario.credito += this.dataQR;
+                    this.dataService.actualizar(this.usuario)
+                        .then(() => this.presentLoading("Actualizando..."));                         
+                })
+                .catch(console.log);
+          }
+             
+          this.qrScanner.hide();
+          this.qrScan.unsubscribe();
+        },
+        (error) => console.log(error));
+      }
+    })
   }
 
   cargarDatos()
@@ -130,13 +132,47 @@ export class MenuPage implements OnDestroy {
     this.dataService.obtenerLocal()
         .then(data => {
           console.log(data);
-          this.usuario = data;
+          this.usuario = data;     
         });
+  }
+
+
+  validarCodigo(codigo: string)
+  {
+    if(!this.codigos.some( aux => aux == codigo) &&
+        this.usuario.rol != 'admin')
+    {
+      //this.test = `El rol del usuario es : ${this.usuario.rol}`;
+      return true;
+    }
+    else if(this.codigos.filter(aux => aux == codigo).length <= 2 &&
+            this.usuario.rol == 'admin')
+    {
+      //this.test = `El rol del usuario es : ${this.usuario.rol}`;
+      return true
+    }
+    return false;
   }
 
   configurar()
   {
     this.qrScanner.openSettings();
+  }
+
+  borrarCreditos()
+  {
+    this.usuario.credito = 0;
+    this.usuario.codigos = [];
+    this.dataService.actualizar(this.usuario)
+                    .then(()=> this.presentToast("Crédito reseteado"));
+  }
+
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000
+    });
+    toast.present();
   }
 
 }

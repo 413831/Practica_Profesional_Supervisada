@@ -85,7 +85,7 @@ export class DataService {
         snapshot.forEach((child) =>{
           var data = child.val();
           usuarios.push(Usuario.CrearUsuario(child.key, data.nombre, data.dni,data.domicilio, 
-                                            data.telefono, data.email, data.credito, data.rol));
+                                            data.telefono, data.email, data.credito, data.codigos, data.rol));
         });
         console.info("Fetch Usuarios");
     })
@@ -106,6 +106,11 @@ export class DataService {
                   .remove()
                   .then(() => console.info("Usuario eliminado"))
                   .catch(() => console.info("No se pudo realizar la baja."));
+  }
+
+  public fetchQR(codigoQR: string)
+  {
+    return database().ref(`codigos/${codigoQR}`).once('value');
   }
 
 

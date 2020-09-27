@@ -9,15 +9,17 @@ export class Usuario
     pass: string;
     rol: string;
     credito: number;
+    codigos: string[];
 
     public Usuario()
     {
         this.rol = "Usuario";
         this.credito = 0;
+        this.codigos = [];
     }
 
-    public static CrearUsuario(id: string, nombre:string, dni:string, domicilio: string,
-                            telefono: number, email: string, credito: number ,rol:string) : Usuario
+    public static CrearUsuario(id: string, nombre:string, dni:string, domicilio: string, telefono: number, 
+                                email: string, credito: number, codigos: string[] ,rol:string) : Usuario
     {
         let usuario = new Usuario();
         usuario.id = id;
@@ -27,6 +29,7 @@ export class Usuario
         usuario.telefono = telefono;
         usuario.email = email;
         usuario.credito = credito;
+        usuario.codigos = codigos;
         usuario.rol = rol;
 
         return usuario;
