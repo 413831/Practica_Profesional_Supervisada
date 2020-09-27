@@ -23,6 +23,14 @@ const routes: Routes = [
     path: 'menu',
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
   },
+  {
+    path: 'sala4b',
+    loadChildren: () => import('./pages/sala4b/sala4b.module').then( m => m.Sala4bPageModule)
+  },
+  {
+    path: 'sala4a',
+    loadChildren: () => import('./pages/sala4a/sala4a.module').then( m => m.Sala4aPageModule)
+  },
 ];
 
 @NgModule({

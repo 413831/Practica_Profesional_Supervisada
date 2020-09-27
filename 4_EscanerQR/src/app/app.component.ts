@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { SplashComponent } from './components/splash/splash.component';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-root',
@@ -17,9 +18,11 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
-    private router: Router
+    private router: Router,
+    private storage: Storage
   ) 
   {
+    this.storage.clear();
     platform.ready().then(() => {
       this.presentModal().then(() => this.router.navigate(['/home']));
     });

@@ -3,20 +3,25 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { IonicModule } from '@ionic/angular';
 import { SplashComponent } from './splash/splash.component';
+import { ChatComponent } from './chat/chat.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    SplashComponent
+    SplashComponent,
+    ChatComponent
   ],
   imports: [
     CommonModule,
-    IonicModule
+    IonicModule,
+    FormsModule
   ],
   exports: [
     HeaderComponent,
-    SplashComponent
+    SplashComponent,
+    ChatComponent
   ]
 })
 export class ComponentsModule { }

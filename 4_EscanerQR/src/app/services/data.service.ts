@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Usuario } from '../clases/usuario';
 import { database } from 'firebase';
 import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class DataService {
 
   private usuarios: Usuario[] = [];
   private static idUsuario = 0;
+  public usuarioActual: Usuario;
 
   constructor(private firebaseAuth: AngularFireAuth,
               private storage: Storage) 
@@ -24,7 +26,8 @@ export class DataService {
     return new Promise<any>((resolve, reject) => {
       this.firebaseAuth.signInWithEmailAndPassword(usuario.email, usuario.pass)
                         .then(response => {
-                          this.guardarLocal(response.user.uid);
+                          console.log("Login");
+                          this.guardarLocal(response.user.uid)
                           resolve(response);
                         },error => reject(error));
     });
@@ -61,9 +64,15 @@ export class DataService {
   {
     console.log(id);
     database().ref('usuarios/' + id).on('value',(snapshot) =>{
-                this.storage.set('usuario', snapshot.val());       
+                console.log("Local Storage");
+                this.storage.set('usuario', snapshot.val());
               });
                
+  }
+
+  public obtenerLocal() : Promise<Usuario>
+  {
+    return this.storage.get('usuario');
   }
 
   public leer(): Usuario[]
@@ -75,8 +84,8 @@ export class DataService {
         usuarios = [];  
         snapshot.forEach((child) =>{
           var data = child.val();
-          usuarios.push(Usuario.CrearUsuario(child.key, data.nombre, data.dni,
-                                            data.domicilio, data.telefono, data.email, data.rol));
+          usuarios.push(Usuario.CrearUsuario(child.key, data.nombre, data.dni,data.domicilio, 
+                                            data.telefono, data.email, data.credito, data.rol));
         });
         console.info("Fetch Usuarios");
     })
@@ -87,7 +96,7 @@ export class DataService {
   {
     return database().ref('usuarios/' + usuario.id)
                   .update(usuario)
-                  .then(() => console.info("Actualizacion exitosa"))
+                  .then(() => this.guardarLocal(usuario.id))
                   .catch(() => console.info("No se pudo actualizar"));
   }
 
@@ -98,4 +107,8 @@ export class DataService {
                   .then(() => console.info("Usuario eliminado"))
                   .catch(() => console.info("No se pudo realizar la baja."));
   }
+
+
+
+
 }
