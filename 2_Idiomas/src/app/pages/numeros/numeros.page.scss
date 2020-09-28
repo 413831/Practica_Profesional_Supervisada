@@ -14,13 +14,12 @@ ion-card {
 
 .slide-image {
     text-align: center;
-
+    max-height: 200px !important;
     display: block;
     margin-left: auto;
     margin-right: auto;
 
-    position: relative;
-    top: -50px;
+    top: -30px;
 }
 
 ion-card-header {

@@ -2,20 +2,23 @@
 
 <ion-content>
 
-
   <ion-slides pager="true" class="slide-full">
-    <div class="ion-activatable">
-      <!-- <ion-slide *ngFor="let slide of slides">
 
-        <img [src]="slide.img" class="slide-image" [routerLink]="slide.route">
+    <ion-slide *ngFor="let animal of animales; let i=index ">
+
+      <div class="ion-activatable">
+        <ion-card color="warning">
+
+          <ion-card-content translucent>
+            <img [src]="animal.img" class="slide-image" (click)="play('es-1')" alt="animal.nombre">
+          </ion-card-content>
+        </ion-card>
 
         <ion-ripple-effect type="bounded"></ion-ripple-effect>
+      </div>
 
-      </ion-slide> -->
-    </div>
-
+    </ion-slide>
 
   </ion-slides>
-
 
 </ion-content>

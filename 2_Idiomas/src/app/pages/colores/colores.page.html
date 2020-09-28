@@ -2,18 +2,23 @@
 
 <ion-content>
 
-  <ion-slides pager="true" class="slide-full">
-    <div class="ion-activatable">
-      <!-- <ion-slide *ngFor="let slide of slides">
+    <ion-slides pager="true" class="slide-full">
 
-        <img [src]="slide.img" class="slide-image" [routerLink]="slide.route">
+        <ion-slide *ngFor="let color of colores; let i=index ">
 
-        <ion-ripple-effect type="bounded"></ion-ripple-effect>
+            <div class="ion-activatable">
+                <ion-card color="warning">
 
-      </ion-slide> -->
-    </div>
+                    <ion-card-content translucent>
+                        <img [src]="color.img" class="slide-image" (click)="play('es-1')" alt="color.nombre">
+                    </ion-card-content>
+                </ion-card>
 
+                <ion-ripple-effect type="bounded"></ion-ripple-effect>
+            </div>
 
-  </ion-slides>
+        </ion-slide>
+
+    </ion-slides>
 
 </ion-content>

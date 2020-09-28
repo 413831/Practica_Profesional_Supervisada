@@ -3,19 +3,22 @@
 <ion-content>
 
     <ion-slides pager="true" class="slide-full">
-        <div class="ion-activatable">
-            <ion-slide *ngFor="let slide of slides">
 
-                <ion-title>{{slide.nombre}}</ion-title>
-                <img [src]="slide.img" class="slide-image">
+        <ion-slide *ngFor="let numero of numeros; let i=index ">
+
+            <div class="ion-activatable">
+                <ion-card color="warning">
+
+                    <ion-card-content translucent>
+                        <img [src]="numero.img" class="slide-image" 
+                            (click)="play(numero.nombre + '-es')" alt="numero.nombre">
+                    </ion-card-content>
+                </ion-card>
 
                 <ion-ripple-effect type="bounded"></ion-ripple-effect>
+            </div>
 
-                sou
-
-            </ion-slide>
-        </div>
-
+        </ion-slide>
 
     </ion-slides>
 
