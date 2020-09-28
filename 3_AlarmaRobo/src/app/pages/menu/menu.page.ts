@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Gyroscope, GyroscopeOrientation, GyroscopeOptions } from '@ionic-native/gyroscope/ngx';
+import { Sensors, TYPE_SENSOR } from '@ionic-native/sensors/ngx';
+import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
+import { DeviceMotion, DeviceMotionAccelerationData, DeviceMotionAccelerometerOptions } from '@ionic-native/device-motion/ngx';
 
-import { Plugins } from '@capacitor/core';
+import { Platform } from '@ionic/angular';
+
 import { DataService } from 'src/app/services/data.service';
-const { Motion } = Plugins;
-
-// Motion.addListener('accel', (event) => {
-//   console.log(event);
-// });
-
-// Motion.addListener('orientation', (event) => {
-//   console.log(event);
-// });
 
 @Component({
   selector: 'app-menu',
@@ -22,18 +17,20 @@ export class MenuPage implements OnInit {
   password: string;
   deshabilitarBoton: boolean = false;
   estado: Estado = Estado.DESACTIVADA;
-  posicion;
+  ejeX;
+  ejeY;
+  ejeZ;
+  timeStamp;
   options: GyroscopeOptions = {
     frequency: 1000
-  }  
+  } 
+  deviceRef;
   
-  constructor(private gyroscope: Gyroscope, private dataService: DataService) { 
-    this.gyroscope.watch()
-    .subscribe((orientation: GyroscopeOrientation) => {
-        console.log(orientation.x, orientation.y, orientation.z, orientation.timestamp);
-        this.posicion = orientation.x;
-    });
+  constructor(private deviceMotion: DeviceMotion,private dataService: DataService, private platform: Platform) 
+  { 
+   
   }
+
 
   ngOnInit() {
   }
@@ -43,13 +40,13 @@ export class MenuPage implements OnInit {
     this.estado = Estado.ACTIVADA;
     this.deshabilitarBoton = true;
 
-    console.log('Estado ',this.estado);
+    console.log('Estado --------------------------------------------',this.estado);
 
-    this.gyroscope.getCurrent(this.options)
-      .then((orientation: GyroscopeOrientation) => {
-        console.log(orientation.x, orientation.y, orientation.z, orientation.timestamp);
-      })
-      .catch()
+    this.platform.ready().then(() => {
+      this.start();
+    });
+
+   
   }
 
   desactivarAlarma()
@@ -63,11 +60,38 @@ export class MenuPage implements OnInit {
                 console.log(res);
                 this.estado = Estado.DESACTIVADA;
                 this.deshabilitarBoton = false;
+                this.stop();
               })
         });
   }
 
- 
+  start()
+  {
+    try
+    {
+      let option: DeviceMotionAccelerometerOptions = 
+      {
+        frequency: 200
+      };
+      this.deviceRef = this.deviceMotion.watchAcceleration(option).subscribe((acc: DeviceMotionAccelerationData) => 
+      {
+        this.ejeX = "" + acc.x;
+        this.ejeY = "" + acc.y;
+        this.ejeZ = "" + acc.z;
+        this.timeStamp = "" + acc.timestamp;
+      })
+    }
+    catch(error)
+    {
+      console.error("ERROR: ",error);
+    }
+  }
+
+  stop()
+  {
+    this.deviceRef.unsubscribe();
+  }
+
 }
 
 enum Estado{

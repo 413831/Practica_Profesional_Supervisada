@@ -15,7 +15,10 @@ import { environment } from 'src/environments/environment';
 import { ComponentsModule } from './components/components.module';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { Gyroscope, GyroscopeOptions, GyroscopeOrientation } from '@ionic-native/gyroscope/ngx';
+import { Gyroscope } from '@ionic-native/gyroscope/ngx';
+import { Sensors } from '@ionic-native/sensors/ngx';
+import { DeviceOrientation } from '@ionic-native/device-orientation/ngx';
+import { DeviceMotion } from '@ionic-native/device-motion/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +36,9 @@ import { Gyroscope, GyroscopeOptions, GyroscopeOrientation } from '@ionic-native
     StatusBar,
     SplashScreen,
     Gyroscope,
+    Sensors,
+    DeviceOrientation,
+    DeviceMotion,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
