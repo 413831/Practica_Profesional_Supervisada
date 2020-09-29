@@ -15,10 +15,18 @@ import { environment } from 'src/environments/environment';
 import { ComponentsModule } from './components/components.module';
 import { IonicStorageModule } from '@ionic/storage';
 
+
+
+//Plugins
+
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { Backlight } from '@ionic-native/backlight/ngx';
 import { Gyroscope } from '@ionic-native/gyroscope/ngx';
 import { Sensors } from '@ionic-native/sensors/ngx';
 import { DeviceOrientation } from '@ionic-native/device-orientation/ngx';
 import { DeviceMotion } from '@ionic-native/device-motion/ngx';
+import { Vibration } from '@ionic-native/vibration/ngx';
+import { Flashlight } from '@ionic-native/flashlight/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +47,10 @@ import { DeviceMotion } from '@ionic-native/device-motion/ngx';
     Sensors,
     DeviceOrientation,
     DeviceMotion,
+    NativeAudio,
+    Backlight,
+    Vibration,
+    Flashlight,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

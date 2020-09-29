@@ -3,31 +3,25 @@
 <ion-content class="fondo" color="dark">
 
     <ion-chip color="primary" mode="ios" outline="true">
-        <ion-label>{{ejeX}}</ion-label>
+        <ion-label>X : {{ejeX}}</ion-label>
     </ion-chip>
     <ion-chip color="primary" mode="ios" outline="true">
-        <ion-label>{{ejeY}}</ion-label>
+        <ion-label>Y : {{ejeY}}</ion-label>
     </ion-chip>
     <ion-chip color="primary" mode="ios" outline="true">
-        <ion-label>{{ejeZ}}</ion-label>
-    </ion-chip>
-    <ion-chip color="primary" mode="ios" outline="true">
-        <ion-label>{{timestamp}}</ion-label>
+        <ion-label>Z : {{ejeZ}}</ion-label>
     </ion-chip>
 
 
-    <ion-list lines="full">
+    <ion-list lines="none" class="ion-no-margin" color="dark">
 
         <ion-item>
-            <ion-label mode="ios" class="center-content">
+            <ion-label mode="ios" class="center-content" class="ion-justify-content-center">
                 <h1>Presione la alarma</h1>
             </ion-label>
         </ion-item>
 
-      
-
     </ion-list>
-
 
     <ion-button (click)="activarAlarma()" strong="true" class="center-content boton-grande" color="danger"
                 expand="full" fill="solid" shape="round" [disabled]="deshabilitarBoton">
@@ -35,20 +29,17 @@
     </ion-button>
 
 
-    <ion-list lines="full">
+    <ion-list lines="none" class="ion-no-margin" color="dark">
 
 
-        <ion-item color="warning">
+        <ion-item color="warning" class="ion-justify-content-center">
             <ion-label *ngIf="estado == 1">Alarma activada</ion-label>
             <ion-label *ngIf="estado == 0">Alarma desactivada</ion-label>
         </ion-item>
 
 
-        <ion-item-divider>
-        </ion-item-divider>
-
-        <ion-item *ngIf="estado == 1">
-            <ion-label position="floating">Ingrese su contraseña para desactivar</ion-label>
+        <ion-item *ngIf="estado == 1" color="medium" class="ion-padding">
+            <ion-label position="fixed">Ingrese su contraseña para desactivar</ion-label>
             <ion-input [(ngModel)]="password" type="password"></ion-input>
             <ion-button (click)="desactivarAlarma()" expand="block" fill="solid" shape="round">
                 DESACTIVAR
