@@ -2,8 +2,8 @@
 
 <ion-content class="fondo">
 
-  <ion-tabs>
-    <ion-tab-bar slot="top">
+  <ion-tabs color="contenido" >
+    <ion-tab-bar slot="top" >
       <ion-tab-button tab="feas">
         <ion-icon name="sad"></ion-icon>
         <ion-label>Negativas</ion-label>
@@ -16,6 +16,13 @@
   </ion-tabs>
 
 
-
-
 </ion-content>
+<ion-footer >
+  <ion-toolbar class="contenido">
+        <ion-tab-button  class="contenido" (click)="sacarFoto()" fill="clear" color="primary" expand="full">
+          <ion-icon name="camera-sharp"></ion-icon>
+          <ion-label>Sacar foto</ion-label>
+        </ion-tab-button>
+
+  </ion-toolbar>
+</ion-footer>

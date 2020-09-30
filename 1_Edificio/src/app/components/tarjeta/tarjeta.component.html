@@ -1,3 +1,14 @@
-<p>
-  tarjeta works!
-</p>
+<ion-card  size="12" size-lg="6" size-md="6" size-sm="6" size-xs="12" color="light">
+  <ion-card-header color="light">
+    <ion-card-title>{{imagen.fecha}}</ion-card-title>
+  </ion-card-header>
+  <ion-img class="imagen" *ngIf="imagen.url" [src]="imagen.url"></ion-img>
+  <ion-card-content  *ngIf="!imagen.url" class="ion-justify-content-around" >
+    <ion-spinner color="primary" name="crescent"></ion-spinner>
+  </ion-card-content>
+  
+</ion-card>
+
+<ion-button size="large" expand="block" fill="solid" shape="round" color="primary" >
+  ESTO ES UN BOTTON
+</ion-button>

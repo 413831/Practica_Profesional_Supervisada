@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Plugins, CameraResultType } from '@capacitor/core';
+import { LoadingController } from '@ionic/angular';
 import { Imagen, TipoImagen } from 'src/app/clases/imagen';
 import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
@@ -18,35 +19,29 @@ export class BonitasPage implements OnInit {
   imageElement;
 
   constructor(private dataService: DataService,
-            private imagenService: ImagenService) 
+            private imagenService: ImagenService,
+            private loadingController: LoadingController) 
   {
-    this.usuario = new Usuario();
-    this.dataService.obtenerLocal()
-                  .then( data => {
-                    this.usuario.id = data.id;
-                  });
+    // Cargo el usuario logueado
+    this.dataService.obtenerLocal().then(user => this.usuario = user);
+    this.presentLoading("Cargando...");
+
+    // Cargo las imagenes guardadas
+    this.imagenes = ImagenService.imagenes;
+    ImagenService.test = 2;
+    console.log("TEST", ImagenService.test);
   }
 
   ngOnInit() {
   }
 
-  async sacarFoto() {
-    let imagen: Imagen;
-
-    const image = await Camera.getPhoto({
-      quality: 90,
-      resultType: CameraResultType.Uri,
-      correctOrientation: true
+  async presentLoading(message) {
+    const loading = await this.loadingController.create({
+      message,
+      duration: 2000,
+      spinner: 'bubbles'
     });
-
-    imagen.url = image.webPath;
-    imagen.fecha = new Date();
-    imagen.usuario = this.usuario.id;
-    imagen.tipo = TipoImagen.POSITIVA;
-
-    this.imagenes.push(imagen);
-    // Can be set to the src of an image now
-    this.imageElement = imagen.url;
-    //imageElement.src = imageUrl;
+    await loading.present();
   }
+
 }

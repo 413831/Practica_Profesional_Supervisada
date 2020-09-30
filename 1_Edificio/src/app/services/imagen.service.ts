@@ -1,22 +1,29 @@
 import { Injectable } from '@angular/core';
-import { storage } from 'firebase';
+import * as firebase from 'firebase';
 import { Imagen } from '../clases/imagen';
+
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImagenService {
+  public static imagenes: Imagen[] = [];
+  public static test: number = 0;
 
-  constructor() { }
+  constructor(private storage : AngularFireStorage) { }
 
-  guardarImagen(imagen: Imagen)
+  async guardarImagen(imagen: Imagen)
   {
-    let metadata = {
+    console.log("Guardar imagen-----------------------");
+    const metadata = {
       contentType: 'image/jpeg',
       user : imagen.usuario,
-      date : imagen.fecha
+      date : imagen.fecha.toDateString()
     };
 
-    storage().ref('app_1').putString( imagen.id, 'base64', metadata);
+    console.log(imagen);
+    // Se sube imagen a la base de datos
+    return this.storage.ref(imagen.usuario).putString(imagen.id, firebase.storage.StringFormat.BASE64, metadata);
   }
 }

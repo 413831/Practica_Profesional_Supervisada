@@ -4,6 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { TarjetaComponent } from './tarjeta/tarjeta.component';
 import { IonicModule } from '@ionic/angular';
 import { SplashComponent } from './splash/splash.component';
+import { TarjetasComponent } from './tarjetas/tarjetas.component';
 
 
 
@@ -11,6 +12,7 @@ import { SplashComponent } from './splash/splash.component';
   declarations: [
     HeaderComponent, 
     TarjetaComponent,
+    TarjetasComponent,
     SplashComponent
   ],
   imports: [
@@ -20,6 +22,7 @@ import { SplashComponent } from './splash/splash.component';
   exports: [
     HeaderComponent,
     TarjetaComponent,
+    TarjetasComponent,
     SplashComponent
   ]
 })
