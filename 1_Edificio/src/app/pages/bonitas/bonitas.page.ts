@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Plugins, CameraResultType } from '@capacitor/core';
-import { LoadingController } from '@ionic/angular';
+import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { Imagen, TipoImagen } from 'src/app/clases/imagen';
 import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
@@ -18,30 +18,46 @@ export class BonitasPage implements OnInit {
   imagenes: Imagen[] = [];
   imageElement;
 
-  constructor(private dataService: DataService,
-            private imagenService: ImagenService,
-            private loadingController: LoadingController) 
+  constructor(private dataService: DataService, 
+              private imagenService: ImagenService,
+              private loadingController: LoadingController,
+              private toastController: ToastController) 
   {
-    // Cargo el usuario logueado
-    this.dataService.obtenerLocal().then(user => this.usuario = user);
     this.presentLoading("Cargando...");
+    this.usuario = new Usuario();
+    // Cargo el usuario logueado
+    this.dataService.obtenerLocal()
+        .then( data => {
+          this.usuario = Object.assign(new Usuario, data);
+        });
 
     // Cargo las imagenes guardadas
-    this.imagenes = ImagenService.imagenes;
-    ImagenService.test = 2;
-    console.log("TEST", ImagenService.test);
+    this.imagenes = ImagenService.fotosBonitas;
   }
 
   ngOnInit() {
   }
 
+  async subirFoto() 
+  {
+    this.imagenService.sacarFoto(this.usuario, TipoImagen.POSITIVA);  
+  }
+
   async presentLoading(message) {
     const loading = await this.loadingController.create({
       message,
-      duration: 2000,
-      spinner: 'bubbles'
+      duration: 1000,
+      spinner: 'crescent'
     });
     await loading.present();
+  }
+
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000
+    });
+    toast.present();
   }
 
 }

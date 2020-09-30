@@ -7,7 +7,7 @@ import { MenuPage } from './menu.page';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'bonitas'
+    component: MenuPage
   },
   {
     path: '',

@@ -2,27 +2,15 @@
 
 <ion-content class="fondo">
 
-  <ion-tabs color="contenido" >
-    <ion-tab-bar slot="top" >
-      <ion-tab-button tab="feas">
-        <ion-icon name="sad"></ion-icon>
-        <ion-label>Negativas</ion-label>
-      </ion-tab-button>
-      <ion-tab-button tab="bonitas">
-        <ion-icon name="happy"></ion-icon>
-        <ion-label>Positivas</ion-label>
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs>
+  <ion-grid fixed >
+    <ion-row class="contenido">
+      <ion-col size="12"   *ngFor="let ruta of rutas" >
+        <h2><ion-label strong="true"> {{ruta.nombre}}</ion-label></h2>
+        <ion-img [src]="ruta.src" (click)="navegar(ruta.ruta)"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 
 </ion-content>
-<ion-footer >
-  <ion-toolbar class="contenido">
-        <ion-tab-button  class="contenido" (click)="sacarFoto()" fill="clear" color="primary" expand="full">
-          <ion-icon name="camera-sharp"></ion-icon>
-          <ion-label>Sacar foto</ion-label>
-        </ion-tab-button>
 
-  </ion-toolbar>
-</ion-footer>

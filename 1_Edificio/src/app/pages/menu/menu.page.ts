@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Imagen, TipoImagen } from 'src/app/clases/imagen';
 import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
 import { ImagenService } from 'src/app/services/imagen.service';
+import { FeasPage } from '../feas/feas.page';
 
-const { Camera } = Plugins;
+
 
 @Component({
   selector: 'app-menu',
@@ -17,72 +19,29 @@ export class MenuPage implements OnInit {
   usuario: Usuario;
   imagenes: Imagen[] = [];
   imageElement;
+  rutas = 
+  [
+    {
+      nombre: 'Feas',
+      ruta: '/feas',
+      src: "/assets/img/feo.jpg",
+    },
+    {
+      nombre: 'Bonitas',
+      ruta: '/bonitas',
+      src: "/assets/img/bonito.jpg",
+    }
+  ];
+  seleccionado: string = '/feas';
 
-  constructor(private dataService: DataService, private imagenService: ImagenService,
-              private loadingController: LoadingController, private toastController: ToastController)
+  constructor(private router: Router,private loadingController: LoadingController)
   { 
-    this.usuario = new Usuario();
-    this.presentLoading("Cargando...");
-    this.dataService.obtenerLocal()
-                  .then( data => {
-                    this.usuario = Object.assign(new Usuario, data);
-                  });
   }
 
   ngOnInit() {
   }
 
-  async sacarFoto() {
-    let imagen: Imagen = new Imagen();
-
-    Camera.getPhoto({
-      quality: 90,
-      resultType: CameraResultType.Base64,
-      correctOrientation: true,
-      source: CameraSource.Prompt,
-      promptLabelHeader: 'Subir foto',
-      promptLabelCancel: 'Cancelar',
-      promptLabelPhoto: 'Subir desde galería',
-      promptLabelPicture: 'Nueva foto',
-      
-    })
-    .then( imageData => {
-      console.log(imageData);
-      imagen.id = imageData.base64String;
-      imagen.fecha = new Date();
-      imagen.usuario = this.usuario.id;
-      imagen.tipo = TipoImagen.POSITIVA;
   
-      console.log("Base 64: ", imagen.id);
-      console.log("URL: ", imagen.url);
-      console.log("Fecha: ", imagen.fecha);
-      console.log("Usuario: ", imagen.usuario);
-  
-      ImagenService.imagenes.push(imagen);
-      ImagenService.test = 1;
-      console.log(ImagenService.imagenes);
-      console.log(ImagenService.test);
-
-      this.imagenService.guardarImagen(imagen)
-            .then(snapshot => 
-            {
-              snapshot.ref.getDownloadURL().then(res => imagen.url = res);
-            },error => console.log);
-      // this.encodeImageUri(imagen.url, (image64) => {
-      //   console.log("IMAGE 64", image64);
-      //   imagen.url = image64;
-      //   this.imagenService.guardarImagen(imagen)
-      //       .then(snapshot => 
-      //       {
-      //         snapshot.ref.getDownloadURL().then(res => this.presentToast(res))
-      //       },error => console.log);
-      // });
-    })
-    .catch( error => {
-      this.presentToast(error);
-    });
-  }
-
   async presentLoading(message) {
     const loading = await this.loadingController.create({
       message,
@@ -90,14 +49,6 @@ export class MenuPage implements OnInit {
       spinner: 'bubbles'
     });
     await loading.present();
-  }
-
-  async presentToast(message) {
-    const toast = await this.toastController.create({
-      message,
-      duration: 2000
-    });
-    toast.present();
   }
 
   encodeImageUri(imageUri, callback) {
@@ -117,5 +68,11 @@ export class MenuPage implements OnInit {
     };
     img.src = imageUri;
   };
+
+  navegar(ruta: string)
+  {
+      this.router.navigate([ruta]);
+      console.log(ruta);
+  }
 
 }
