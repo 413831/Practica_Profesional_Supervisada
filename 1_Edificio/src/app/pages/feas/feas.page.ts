@@ -16,9 +16,6 @@ const { Camera } = Plugins;
 export class FeasPage implements OnInit {
   usuario: Usuario;
   imagenes: Imagen[] = [];
-  // imagenes = [ "https://firebasestorage.googleapis.com/v0/b/web-apps---practica.appspot.com/o/seidman-cancer-center-building-at-daytime-668298.jpg?alt=media&token=20b609f0-f4c3-44d7-85da-4ffa0ef6dfc0",
-  //           "https://firebasestorage.googleapis.com/v0/b/web-apps---practica.appspot.com/o/edificios_1.jpeg?alt=media&token=e33e99b2-392a-425a-a4d5-9a5a1710bb48"
-  //             ];
   
   constructor(private dataService: DataService, 
               private imagenService: ImagenService,
@@ -35,15 +32,16 @@ export class FeasPage implements OnInit {
 
     // Cargo las imagenes guardadas
     this.imagenes = ImagenService.fotosFeas;
-    
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async subirFoto() 
   {
-    this.imagenService.sacarFoto(this.usuario, TipoImagen.NEGATIVA);  
+    this.imagenService.sacarFoto(this.usuario, TipoImagen.NEGATIVA)
+                      .then(imagen => this.usuario.imagenes.push(imagen.id))
+                      .catch(console.error)
+                      .finally(() => this.dataService.actualizar(this.usuario));
   }
 
   async presentLoading(message) {

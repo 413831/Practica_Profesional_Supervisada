@@ -8,6 +8,12 @@ interface Sound {
   isNative: boolean
 }
 
+export interface ILenguajeSeleccionado{
+  idioma: string,
+  img: string
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +21,11 @@ export class AudioService {
   private sounds: Sound[] = [];
   private audioPlayer: HTMLAudioElement = new Audio();
   private forceWebAudio: boolean = true;
+  public static idiomaSeleccionado: ILenguajeSeleccionado = 
+  {
+    idioma: 'es', 
+    img: "/assets/img/spanish.png"
+  };
 
   constructor(private platform: Platform, private nativeAudio: NativeAudio) { }
 
@@ -68,4 +79,11 @@ export class AudioService {
     }
 
   }
+}
+
+export enum Idioma
+{
+  Español = 'es',
+  Ingles = 'en',
+  Portugues = 'pt'
 }

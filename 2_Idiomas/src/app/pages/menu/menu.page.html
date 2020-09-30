@@ -18,18 +18,12 @@
   </ion-slides>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="danger">
-    <ion-fab-button>
-      <img [src]="idiomaSeleccionado.bandera" alt="idiomaSeleccionado.idioma">
+    <ion-fab-button color="danger">
+      <img [src]="idiomaSeleccionado.img" alt="idiomaSeleccionado.idioma">
     </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button>
-        <img [src]="banderas[0].img" alt="banderas[0].idioma">
-      </ion-fab-button>
-      <ion-fab-button>
-        <img [src]="banderas[1].img" alt="banderas[1].idioma">
-      </ion-fab-button>
-      <ion-fab-button>
-        <img [src]="banderas[2].img" alt="banderas[2].idioma">
+    <ion-fab-list side="top" >
+      <ion-fab-button *ngFor="let bandera of banderas" (click)="seleccionar(bandera)">
+        <img [src]="bandera.img" alt="bandera.idioma">
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

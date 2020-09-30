@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AudioService, Idioma, ILenguajeSeleccionado } from 'src/app/services/audio.service';
+
 
 @Component({
   selector: 'app-menu',
@@ -6,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnInit {
-  idiomaSeleccionado;
+  idiomaSeleccionado: ILenguajeSeleccionado;
   slides: { img: string, route: string }[] = [
     {
       img: '/assets/img/animales_1.jpg',
@@ -22,17 +24,17 @@ export class MenuPage implements OnInit {
     },
   ];
 
-  banderas : { img, idioma }[] = [
+  banderas : ILenguajeSeleccionado[] = [
     {
-      idioma: 'Español',
+      idioma: Idioma.Español,
       img : '/assets/img/spanish.png'
     },
     {
-      idioma: 'Inglés',
+      idioma: Idioma.Ingles,
       img : '/assets/img/english.png'
     },
     {
-      idioma: 'Portugués',
+      idioma: Idioma.Portugues,
       img : '/assets/img/portuguese.png'
     }
   ];
@@ -40,16 +42,20 @@ export class MenuPage implements OnInit {
   constructor() 
   {
     this.idiomaSeleccionado = {
-      idioma : 'Español',
-      bandera: this.banderas[0].img
+      idioma : Idioma.Español,
+      img: this.banderas[0].img
     }
   }
 
   ngOnInit() {
   }
 
-  onClick(bandera)
+  seleccionar(opcion: ILenguajeSeleccionado)
   {
-    console.log(bandera.idioma);
+    this.idiomaSeleccionado.idioma = opcion.idioma;
+    this.idiomaSeleccionado.img = opcion.img;
+
+    AudioService.idiomaSeleccionado = this.idiomaSeleccionado;
+    console.log(AudioService.idiomaSeleccionado);
   }
 }

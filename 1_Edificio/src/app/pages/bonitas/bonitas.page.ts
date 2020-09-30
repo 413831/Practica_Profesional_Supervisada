@@ -16,7 +16,6 @@ const { Camera } = Plugins;
 export class BonitasPage implements OnInit {
   usuario: Usuario;
   imagenes: Imagen[] = [];
-  imageElement;
 
   constructor(private dataService: DataService, 
               private imagenService: ImagenService,
@@ -32,15 +31,18 @@ export class BonitasPage implements OnInit {
         });
 
     // Cargo las imagenes guardadas
-    this.imagenes = ImagenService.fotosBonitas;
+    // this.imagenes = ImagenService.fotosBonitas;
+    this.imagenes = this.imagenService.fetchAll().filter(img => img.tipo == TipoImagen.POSITIVA);
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async subirFoto() 
   {
-    this.imagenService.sacarFoto(this.usuario, TipoImagen.POSITIVA);  
+    this.imagenService.sacarFoto(this.usuario, TipoImagen.POSITIVA);
+                      // .then(imagen => this.usuario.imagenes.push(imagen.id))
+                      // .catch(console.error)
+                      // .finally(() => this.dataService.actualizar(this.usuario));  
   }
 
   async presentLoading(message) {

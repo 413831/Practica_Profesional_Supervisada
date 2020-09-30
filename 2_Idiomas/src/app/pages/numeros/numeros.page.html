@@ -9,10 +9,18 @@
             <div class="ion-activatable">
                 <ion-card color="warning">
 
-                    <ion-card-content translucent>
-                        <img [src]="numero.img" class="slide-image" 
+                    <ion-card-content translucent *ngIf="opcion">
+                            <img *ngIf="opcion.idioma == 'es'" [src]="numero.img" class="slide-image" 
                             (click)="play(numero.nombre + '-es')" alt="numero.nombre">
+
+                            <img *ngIf="opcion.idioma == 'en'" [src]="numero.img" class="slide-image" 
+                            (click)="play(numero.nombre + '-en')" alt="numero.nombre">
+
+                            <img *ngIf="opcion.idioma == 'pt'" [src]="numero.img" class="slide-image" 
+                            (click)="play(numero.nombre + '-pt')" alt="numero.nombre">
+                        
                     </ion-card-content>
+                    
                 </ion-card>
 
                 <ion-ripple-effect type="bounded"></ion-ripple-effect>
