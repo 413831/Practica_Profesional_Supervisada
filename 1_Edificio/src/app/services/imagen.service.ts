@@ -18,8 +18,11 @@ export class ImagenService {
   public static fotosFeas: Imagen[] = [];
   public static fotosBonitas: Imagen[] = [];
   public static test: number = 0;
+  public imagenes = [];
 
-  constructor(private storage : AngularFireStorage, private toastController: ToastController) { }
+  constructor(private storage : AngularFireStorage, private toastController: ToastController) 
+  {
+  }
 
   async sacarFoto(usuario: Usuario, tipo: TipoImagen) : Promise<Imagen>
   {
@@ -125,21 +128,25 @@ export class ImagenService {
                     .catch(() => console.info("No se pudo realizar la baja."));
   }
 
-  public fetchAll(): Imagen[]
+  public fetchAll()
   {
-    let imagenes = [];
+    this.imagenes = [];
     console.info("Fetch de todas las imagenes");
 
-    database().ref('imagenes').on('value',(snapshot) => {          
-      imagenes = [];  
-        snapshot.forEach((child) =>{
-          var data = child.val();
-          imagenes.push(Imagen.CrearImagen(data.id, data.base64, data.url, data.usuario, data.nombreUsuario,
-                                            data.fecha, data.tipo, data.votos));
-        });
-        console.info("Fetch imagenes");
-    })
-    return imagenes;
+    database().ref('imagenes').on('value',(snapshot) => 
+    {           
+      snapshot.forEach((child) =>
+      {
+        var data = child.val();
+        let aux = Imagen.CrearImagen(data.id, data.base64, data.url, data.usuario, data.nombreUsuario,
+                                      data.fecha, data.tipo, data.votos);
+        this.imagenes.push(aux);
+        console.log(this.imagenes);
+      });
+      console.info("Fetch imagenes");
+    });
+    console.log(this.imagenes);
+    return this.imagenes;
   }
 
   public fetchUsuario(usuario: string): Imagen[]

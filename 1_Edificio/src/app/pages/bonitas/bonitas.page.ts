@@ -22,6 +22,9 @@ export class BonitasPage implements OnInit {
               private loadingController: LoadingController,
               private toastController: ToastController) 
   {
+    // Cargo las imagenes guardadas
+    this.imagenes = ImagenService.fotosBonitas;
+    
     this.presentLoading("Cargando...");
     this.usuario = new Usuario();
     // Cargo el usuario logueado
@@ -30,9 +33,6 @@ export class BonitasPage implements OnInit {
           this.usuario = Object.assign(new Usuario, data);
         });
 
-    // Cargo las imagenes guardadas
-    // this.imagenes = ImagenService.fotosBonitas;
-    this.imagenes = this.imagenService.fetchAll().filter(img => img.tipo == TipoImagen.POSITIVA);
   }
 
   ngOnInit() {}

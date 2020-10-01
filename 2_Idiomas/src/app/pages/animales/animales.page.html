@@ -12,13 +12,13 @@
           <ion-card-content translucent *ngIf="opcion">
 
             <img *ngIf="opcion.idioma == 'es'" [src]="animal.img" class="slide-image" 
-                (click)="play('es-1')" alt="animal.nombre">
+                (click)="play(animal.nombre + '-es')" alt="animal.nombre">
             
             <img *ngIf="opcion.idioma == 'en'" [src]="animal.img" class="slide-image" 
-                (click)="play('es-1')" alt="animal.nombre">
+                (click)="play(animal.nombre + '-en')" alt="animal.nombre">
 
             <img *ngIf="opcion.idioma == 'pt'" [src]="animal.img" class="slide-image" 
-                (click)="play('es-1')" alt="animal.nombre">
+                (click)="play(animal.nombre + '-pt')" alt="animal.nombre">
 
           </ion-card-content>
         </ion-card>

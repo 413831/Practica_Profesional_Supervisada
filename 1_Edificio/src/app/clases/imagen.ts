@@ -17,7 +17,7 @@ export class Imagen
     public static CrearImagen(id: string, base64: string, url: string, usuario: string, 
                             nombreUsuario: string,fecha: Date, tipo: TipoImagen, votos: string[])
     {
-        const imagen = new Imagen();
+        let imagen = new Imagen();
 
         imagen.id = id;
         imagen.base64 = base64;
@@ -26,8 +26,12 @@ export class Imagen
         imagen.nombreUsuario = nombreUsuario;
         imagen.fecha = fecha;
         imagen.tipo = tipo;
-        imagen.votos.push(...votos);
-
+        imagen.votos = [];
+        if(votos)
+        {
+            imagen.votos.push(...votos);
+        }
+        
         return imagen;
     }
 }

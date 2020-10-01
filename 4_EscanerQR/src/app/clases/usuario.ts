@@ -15,7 +15,7 @@ export class Usuario
     {
         this.rol = "Usuario";
         this.credito = 0;
-        this.codigos = [];
+        this.codigos = ['0'];
     }
 
     public static CrearUsuario(id: string, nombre:string, dni:string, domicilio: string, telefono: number, 
@@ -29,7 +29,7 @@ export class Usuario
         usuario.telefono = telefono;
         usuario.email = email;
         usuario.credito = credito;
-        usuario.codigos = codigos;
+        usuario.codigos = (codigos) ? codigos : [];
         usuario.rol = rol;
 
         return usuario;

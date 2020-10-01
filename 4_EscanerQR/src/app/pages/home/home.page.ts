@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  usuario: Usuario = new Usuario();
+  usuario: Usuario;
   perfiles = environment.usuario;
   rol: string = "";
 
@@ -30,6 +30,7 @@ export class HomePage {
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Perfiles de usuario',
+      translucent: true,
       buttons: [{
         text: 'Admin',
         role: 'close',
@@ -58,6 +59,7 @@ export class HomePage {
 
   iniciarSesion(valor: string)
   {
+      this.usuario = new Usuario();
      this.rol = valor;
   
       switch(this.rol)
@@ -78,7 +80,7 @@ export class HomePage {
           this.usuario.rol = this.perfiles.usuario.rol;
           break;
       }
-      
+      console.log(this.usuario);
       this.dataService.login(this.usuario).then(()=>{
         this.presentToast(`Perfil : ${this.usuario.rol}`);
         this.router.navigate(['/menu']);

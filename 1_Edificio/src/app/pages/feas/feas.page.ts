@@ -22,6 +22,15 @@ export class FeasPage implements OnInit {
               private loadingController: LoadingController,
               private toastController: ToastController) 
   {
+    // Cargo las imagenes guardadas
+    ImagenService.fotosFeas = this.imagenService.fetchAll()
+                                                .filter( img => img.tipo == TipoImagen.NEGATIVA);
+    this.imagenes = ImagenService.fotosFeas;
+    console.log(this.imagenes);
+    // ImagenService.fotosBonitas = this.imagenes.filter( img => img.tipo == TipoImagen.POSITIVA);
+    // ImagenService.fotosFeas = this.imagenes.filter( img => img.tipo == TipoImagen.NEGATIVA);
+    // this.imagenes = ImagenService.fotosFeas;
+
     this.presentLoading("Cargando...");
     this.usuario = new Usuario();
     // Cargo el usuario logueado
@@ -30,11 +39,11 @@ export class FeasPage implements OnInit {
           this.usuario = Object.assign(new Usuario, data);
         });
 
-    // Cargo las imagenes guardadas
-    this.imagenes = ImagenService.fotosFeas;
   }
 
-  ngOnInit() {}
+  ngOnInit() 
+  {
+  }
 
   async subirFoto() 
   {
@@ -47,7 +56,7 @@ export class FeasPage implements OnInit {
   async presentLoading(message) {
     const loading = await this.loadingController.create({
       message,
-      duration: 1000,
+      duration: 2000,
       spinner: "crescent"
     });
     await loading.present();

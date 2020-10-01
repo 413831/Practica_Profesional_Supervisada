@@ -4,7 +4,7 @@
 
   <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()"  >
 
-    <ion-list >
+    <ion-list color="dark">
 
       <ion-list-header color="dark">
         <ion-label>Validación de datos: Es válido {{ formulario.valid }}</ion-label>
@@ -13,7 +13,7 @@
       <ion-item color="dark">
         <ion-label position="floating">Email</ion-label>
         <ion-input type="email" placeholder="Ingrese email" name="email" [(ngModel)]="usuario.email"
-          pattern="pattern" required>
+          required>
         </ion-input>
       </ion-item>
 

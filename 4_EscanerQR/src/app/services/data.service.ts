@@ -12,7 +12,7 @@ export class DataService {
 
   private usuarios: Usuario[] = [];
   private static idUsuario = 0;
-  public usuarioActual: Usuario;
+  public static usuarioActual: Usuario;
 
   constructor(private firebaseAuth: AngularFireAuth,
               private storage: Storage) 
@@ -22,14 +22,16 @@ export class DataService {
   login(usuario: Usuario)
   {
     // return this.test(usuario);
-    console.log(usuario);
     return new Promise<any>((resolve, reject) => {
-      this.firebaseAuth.signInWithEmailAndPassword(usuario.email, usuario.pass)
-                        .then(response => {
-                          console.log("Login");
-                          this.guardarLocal(response.user.uid)
-                          resolve(response);
-                        },error => reject(error));
+            this.firebaseAuth.signInWithEmailAndPassword(usuario.email, usuario.pass)
+                .then(response => 
+                  {
+                    console.log("Login");
+                    this.guardarLocal(response.user.uid).then((res) => {
+                      console.log(res);
+                      resolve(response);
+                    });
+                  },error => reject(error));
     });
   }
 
@@ -53,6 +55,9 @@ export class DataService {
 
   public crear(usuario: Usuario, uid: string): Promise<any>
   {
+    usuario.rol = "Usuario";
+    usuario.codigos = ['0'];
+
     return database().ref('usuarios/' + uid)
               .set(usuario)
               .then(() => usuario.id = uid)
@@ -63,15 +68,22 @@ export class DataService {
   public guardarLocal(id: string)
   {
     console.log(id);
-    database().ref('usuarios/' + id).on('value',(snapshot) =>{
-                console.log("Local Storage");
-                this.storage.set('usuario', snapshot.val());
-              });
-               
+
+    const promesa = new Promise<any>(resolve => {
+                    database().ref('usuarios/' + id).on('value',(snapshot) =>{
+                      console.log("Guardar Local Storage");
+                      DataService.usuarioActual = snapshot.val();
+                      this.storage.set('usuario', snapshot.val());
+                      resolve(DataService.usuarioActual);
+                    });
+    })
+
+    return promesa;           
   }
 
-  public obtenerLocal() : Promise<Usuario>
+  public obtenerLocal() : Promise<void | Usuario>
   {
+    console.log("Obtener Local Storage");
     return this.storage.get('usuario');
   }
 

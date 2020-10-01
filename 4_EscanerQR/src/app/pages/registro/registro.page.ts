@@ -12,7 +12,7 @@ import { DataService } from 'src/app/services/data.service';
 export class RegistroPage implements OnInit {
   usuario: Usuario = new  Usuario();
   emailPattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;  
-  lettersPattern = /^[a-zA-Z]+$/;
+  lettersPattern = /^[a-zA-Z ]{4,}$ /; 
   dniPattern = /^[0-9]{7,8}$/;
   alphaPattern = /^[a-zA-Z0-9 ]+$/;
   phonePattern = /^[0-9]{10}$/; 

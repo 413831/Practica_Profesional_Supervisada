@@ -13,7 +13,7 @@
       <ion-item color="dark">
         <ion-label position="floating">Nombre</ion-label>
         <ion-input type="text" placeholder="Ingrese su nombre" name="nombre" [(ngModel)]="usuario.nombre"
-                  [pattern]="lettersPattern" required>
+                   required>
         </ion-input>
       </ion-item>
 
@@ -28,14 +28,14 @@
       <ion-item color="dark">
         <ion-label position="floating">Domicilio</ion-label>
         <ion-input type="text" placeholder="Ingrese su domicilio" name="nombre" [(ngModel)]="usuario.domicilio"
-          [pattern]="alphaPattern" required>
+           required>
         </ion-input>
       </ion-item>
 
       <ion-item color="dark">
         <ion-label position="floating">Teléfono</ion-label>
         <ion-input type="number" placeholder="Ingrese su número telefónico" name="nombre" 
-                  [(ngModel)]="usuario.nombre"
+                  [(ngModel)]="usuario.telefono"
                   [pattern]="phonePattern" required>
         </ion-input>
       </ion-item>

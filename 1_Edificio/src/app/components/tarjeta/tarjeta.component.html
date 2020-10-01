@@ -5,7 +5,7 @@
   </ion-card-header>
   <ion-img class="imagen" *ngIf="imagen.url" [src]="imagen.url"></ion-img>
   <ion-card-content class="ion-justify-content-around" >
-    <ion-label>Votos: {{imagen.votos.length}}</ion-label>
+    <ion-label *ngIf="imagen.votos">Votos: {{imagen.votos.length}}</ion-label>
     <ion-spinner  *ngIf="!imagen.url" color="primary" name="crescent"></ion-spinner>
   </ion-card-content>
   
@@ -13,5 +13,5 @@
 
 <ion-button size="large" expand="block" 
             fill="clear" shape="round" color="primary" (click)="votar()">
-  <ion-icon class="ion-margin" slot="icon-only" name="star"></ion-icon>
+  <ion-icon class="ion-margin" slot="icon-only" name="star" size="medium"></ion-icon>
 </ion-button>

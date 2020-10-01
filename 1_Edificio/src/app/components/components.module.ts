@@ -5,6 +5,8 @@ import { TarjetaComponent } from './tarjeta/tarjeta.component';
 import { IonicModule } from '@ionic/angular';
 import { SplashComponent } from './splash/splash.component';
 import { TarjetasComponent } from './tarjetas/tarjetas.component';
+import { VotosPipe } from '../pipes/votos.pipe';
+import { AppModule } from '../app.module';
 
 
 
@@ -17,7 +19,7 @@ import { TarjetasComponent } from './tarjetas/tarjetas.component';
   ],
   imports: [
     CommonModule,
-    IonicModule
+    IonicModule,
   ],
   exports: [
     HeaderComponent,

@@ -16,9 +16,10 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { SplashComponent } from './components/splash/splash.component';
 import { ComponentsModule } from './components/components.module';
+import { VotosPipe } from './pipes/votos.pipe';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, VotosPipe],
   entryComponents: [SplashComponent],
   imports: [
     BrowserModule,
@@ -30,6 +31,11 @@ import { ComponentsModule } from './components/components.module';
     AngularFireAuthModule,
     AngularFireStorageModule
   ],
+  exports:
+  [
+    VotosPipe
+  ]
+  ,
   providers: [
     StatusBar,
     SplashScreen,
