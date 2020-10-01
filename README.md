@@ -1,2 +1,2 @@
 # Practica_Profesional_Supervisada
-Repositorio para proyectos de la materia PPS
+Desarrollos con Ionic + Angular + Firebase para la materia Práctica Profesional Supervisada
