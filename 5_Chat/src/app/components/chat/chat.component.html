@@ -1,8 +1,4 @@
-<ion-content color="medium" class="ion-padding">
-
-  <ion-card color="dark">
-
-    <ion-card-content *ngIf="mensajes ">
+<ion-content color="medium" class="ion-padding" *ngIf="mensajes">
 
       <ion-grid fixed *ngFor="let mensaje of mensajes; let i = index">
         
@@ -10,11 +6,11 @@
 
           <ion-col size="12">
 
-            <ion-chip color="primary" mode="ios" outline="true">
+            <ion-chip color="light" mode="ios" outline="true">
               <ion-label class="ion-text-end">{{mensaje.texto}}</ion-label>
             </ion-chip>
             
-            <ion-chip color="dark" mode="ios" outline="false">
+            <ion-chip color="primary" mode="ios" outline="false">
               <ion-label>{{mensaje.nombreUsuario}}</ion-label>
             </ion-chip>
 
@@ -39,34 +35,5 @@
         </ion-row>
 
       </ion-grid>
-
-      <!-- <ion-item-group *ngFor="let mensaje of mensajes" slot="fixed">
-
-        <ion-item *ngIf="idUsuario != mensaje.usuario" class="ion-text-start" color="light">
-          
-          <ion-chip color="primary" mode="ios" outline="true">
-            <ion-label class="ion-text-end">SSS</ion-label>
-          </ion-chip>
-          
-          <ion-chip color="dark" mode="ios" outline="false">
-            <ion-label>{{mensaje.texto}}</ion-label>
-          </ion-chip>
-
-        </ion-item>
-
-        <ion-item *ngIf="idUsuario == mensaje.usuario" class="ion-text-end">
-
-          <ion-chip class="ion-text-end" color="tertiary" mode="ios" outline="false" >
-            <ion-label class="ion-text-end" color="light">{{mensaje.texto}}</ion-label>
-          </ion-chip>
-
-        </ion-item>
-
-      </ion-item-group> -->
-
-    </ion-card-content>
-
-  </ion-card>
-
 
 </ion-content>
