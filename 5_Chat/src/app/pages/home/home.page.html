@@ -1,7 +1,6 @@
 <app-header titulo="Inicio"></app-header>
 
-<ion-content color="dark">
-
+<ion-content color="dark" class="ion-no-padding">
   
   <ion-fab vertical="top" horizontal="end" slot="fixed" >
     <ion-fab-button color="light">
@@ -22,7 +21,6 @@
 
   </ion-fab>
 
-  <div>
     <ion-toolbar color="dark">
       <h1>
         <ion-title translucent ><strong>Chamuyapp</strong> <br>
@@ -35,6 +33,9 @@
 
     <ion-img class="max-img" [src]="imgSrc"></ion-img>
 
+</ion-content>
+<ion-footer >
+  <ion-toolbar color="dark" class="ion-padding-bottom">
     <ion-button color="danger" size="large" [routerLink]="['/login']" expand="block">
       <ion-icon slot="icon-only" name="log-in-outline"></ion-icon>
     </ion-button>
@@ -42,8 +43,5 @@
     <ion-button color="danger" size="large" [routerLink]="['/registro']" expand="block">
       <ion-icon slot="icon-only" name="person-add-outline"></ion-icon>
     </ion-button>
-
-  </div>
-
-
-</ion-content>
+  </ion-toolbar>
+</ion-footer>

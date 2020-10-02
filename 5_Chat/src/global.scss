@@ -27,10 +27,12 @@
 
 .max-img
 {
+    justify-content: center !important;
     max-height: fit-content !important;
     max-width: fit-content !important;
     background-color: transparent !important;
     opacity: 90% !important;
+    padding-bottom: -50px !important;
 }
 
 .area-mensajes

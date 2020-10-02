@@ -1,4 +1,5 @@
 import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
+import { Mensaje } from 'src/app/clases/mensaje';
 
 @Component({
   selector: 'app-chat',
@@ -6,8 +7,9 @@ import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
-  mensajes: string[] = ['A','B','C','D','E','F'];
-  @Input() mensaje: string;
+  @Input() mensajes: Mensaje[] = [];
+  @Input() mensaje: Mensaje;
+  @Input() idUsuario: string;
 
   constructor() { }
 

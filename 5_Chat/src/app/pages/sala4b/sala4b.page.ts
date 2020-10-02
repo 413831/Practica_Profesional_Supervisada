@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Usuario } from 'src/app/clases/usuario';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-sala4b',
@@ -6,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sala4b.page.scss'],
 })
 export class Sala4bPage implements OnInit {
+  usuario: Usuario;
   mensaje : string;
   textoAuxiliar : string;
 
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
   }
@@ -22,7 +25,15 @@ export class Sala4bPage implements OnInit {
     {
       this.mensaje = this.textoAuxiliar;
       this.textoAuxiliar = null;
-      
     }
+  }
+
+  cargarDatos()
+  {
+    this.dataService.obtenerLocal()
+        .then(data => {
+          console.log(data);
+          this.usuario = Object.assign(new Usuario,data);
+        });
   }
 }

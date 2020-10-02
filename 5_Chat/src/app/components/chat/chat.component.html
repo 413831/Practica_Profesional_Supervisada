@@ -1,20 +1,68 @@
-<ion-content color="warning" class="ion-padding">
-
+<ion-content color="medium" class="ion-padding">
 
   <ion-card color="dark">
 
-    <ion-card-content >
+    <ion-card-content *ngIf="mensajes ">
 
-      <ion-item-group *ngFor="let mensaje of mensajes" slot="fixed">
+      <ion-grid fixed *ngFor="let mensaje of mensajes; let i = index">
+        
+        <ion-row *ngIf="idUsuario != mensaje.usuario">
 
-        <ion-item *ngIf="mensaje != ''" class="ion-justify-content-start" lines="none">
-          <ion-label>{{mensaje}}</ion-label>
+          <ion-col size="12">
+
+            <ion-chip color="primary" mode="ios" outline="true">
+              <ion-label class="ion-text-end">{{mensaje.texto}}</ion-label>
+            </ion-chip>
+            
+            <ion-chip color="dark" mode="ios" outline="false">
+              <ion-label>{{mensaje.nombreUsuario}}</ion-label>
+            </ion-chip>
+
+          </ion-col>
+
+        </ion-row>
+        
+        <ion-row *ngIf="idUsuario == mensaje.usuario">
+         
+          <ion-col size="12" >
+
+            <div class="ion-text-end">
+
+              <ion-chip color="tertiary" mode="ios" outline="false" >
+                <ion-label color="light">{{mensaje.texto}}</ion-label>
+              </ion-chip>
+
+            </div>
+
+          </ion-col>
+          
+        </ion-row>
+
+      </ion-grid>
+
+      <!-- <ion-item-group *ngFor="let mensaje of mensajes" slot="fixed">
+
+        <ion-item *ngIf="idUsuario != mensaje.usuario" class="ion-text-start" color="light">
+          
+          <ion-chip color="primary" mode="ios" outline="true">
+            <ion-label class="ion-text-end">SSS</ion-label>
+          </ion-chip>
+          
+          <ion-chip color="dark" mode="ios" outline="false">
+            <ion-label>{{mensaje.texto}}</ion-label>
+          </ion-chip>
+
         </ion-item>
 
-      </ion-item-group>
+        <ion-item *ngIf="idUsuario == mensaje.usuario" class="ion-text-end">
 
-    
-     
+          <ion-chip class="ion-text-end" color="tertiary" mode="ios" outline="false" >
+            <ion-label class="ion-text-end" color="light">{{mensaje.texto}}</ion-label>
+          </ion-chip>
+
+        </ion-item>
+
+      </ion-item-group> -->
 
     </ion-card-content>
 

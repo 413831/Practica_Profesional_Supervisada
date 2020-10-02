@@ -8,7 +8,7 @@ import { Storage } from '@ionic/storage';
   providedIn: 'root'
 })
 export class DataService {
-
+  public static usuarioActual: Usuario;
   private usuarios: Usuario[] = [];
   private static idUsuario = 0;
 
@@ -20,13 +20,16 @@ export class DataService {
   login(usuario: Usuario)
   {
     // return this.test(usuario);
-    console.log(usuario);
     return new Promise<any>((resolve, reject) => {
       this.firebaseAuth.signInWithEmailAndPassword(usuario.email, usuario.pass)
-                        .then(response => {
-                          this.guardarLocal(response.user.uid);
-                          resolve(response);
-                        },error => reject(error));
+          .then(response => 
+            {
+              console.log("Login");
+              this.guardarLocal(response.user.uid).then((res) => {
+                console.log(res);
+                resolve(response);
+              });
+            },error => reject(error));
     });
   }
 
@@ -60,10 +63,23 @@ export class DataService {
   public guardarLocal(id: string)
   {
     console.log(id);
-    database().ref('usuarios/' + id).on('value',(snapshot) =>{
-                this.storage.set('usuario', snapshot.val());       
-              });
-               
+
+    const promesa = new Promise<any>(resolve => {
+                    database().ref('usuarios/' + id).on('value',(snapshot) =>{
+                      console.log("Guardar Local Storage");
+                      DataService.usuarioActual = snapshot.val();
+                      this.storage.set('usuario', snapshot.val());
+                      resolve(DataService.usuarioActual);
+                    });
+    })
+
+    return promesa;   
+  }
+
+  public obtenerLocal() : Promise<void | Usuario>
+  {
+    console.log("Obtener Local Storage");
+    return this.storage.get('usuario');
   }
 
   public leer(): Usuario[]
