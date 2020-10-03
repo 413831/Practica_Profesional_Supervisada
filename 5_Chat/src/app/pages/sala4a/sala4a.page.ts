@@ -15,6 +15,7 @@ export class Sala4aPage implements OnInit {
   mensaje : Mensaje;
   mensajes: Mensaje[];
   textoAuxiliar : string;
+  color: string = "secondary";
 
   constructor(private dataService: DataService, private mensajeService: MensajesService) 
   {

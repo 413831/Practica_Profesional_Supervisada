@@ -14,6 +14,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { ComponentsModule } from './components/components.module';
+import { FechaPipe } from './pipes/fecha.pipe';
 
 @NgModule({
   declarations: [AppComponent],

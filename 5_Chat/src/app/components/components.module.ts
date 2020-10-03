@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { SplashComponent } from './splash/splash.component';
 import { ChatComponent } from './chat/chat.component';
 import { FormsModule } from '@angular/forms';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     IonicModule,
-    FormsModule
+    FormsModule,
+    PipesModule
   ],
   exports: [
     HeaderComponent,

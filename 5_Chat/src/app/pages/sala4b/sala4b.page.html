@@ -1,5 +1,5 @@
-<ion-header translucent >
-  <ion-toolbar color="danger" >
+<ion-header >
+  <ion-toolbar  color="primary" >
 
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/menu"></ion-back-button>
@@ -10,9 +10,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="dark">
+<ion-content  color="primary">
 
-  <app-chat [mensajes]="mensajes" [mensaje]="mensaje" [idUsuario]="usuario.id"></app-chat>
+  <app-chat [mensajes]="mensajes" [mensaje]="mensaje" 
+            [idUsuario]="usuario.id"></app-chat>
 
 </ion-content>
 
@@ -21,7 +22,7 @@
     <ion-item color="dark">
       <ion-input name="mensaje" [(ngModel)]="textoAuxiliar" clearInput="true" clearOnEdit="true"></ion-input>
       <ion-button slot="end" (click)="enviar()" fill="clear" shape="round">
-        <ion-icon name="send"></ion-icon>
+        <ion-icon color="primary" name="send"></ion-icon>
       </ion-button>
   
     </ion-item>

@@ -12,12 +12,16 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() mensajes: Mensaje[] = [];
   @Input() mensaje: Mensaje;
   @Input() idUsuario: string;
+  @Input() color;
 
   @ViewChild(IonContent, {read: IonContent, static: false}) content: IonContent;
 
-  constructor(private mensajesService: MensajesService) { }
+  constructor(private mensajesService: MensajesService) 
+  { 
+  }
 
   ngOnInit(): void {
+   
     this.scrollToBottomOnInit();
   }
  
@@ -35,13 +39,13 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngOnDestroy(): void {
 
-    this.mensajes.forEach(mensaje => {
-      if(mensaje.id == '0')
-      {
-        console.info(mensaje);
-        this.mensajesService.crear(mensaje);
-      }
-    });
+    // this.mensajes.forEach(mensaje => {
+    //   if(mensaje.id == '0')
+    //   {
+    //     console.info(mensaje);
+    //     this.mensajesService.crear(mensaje);
+    //   }
+    // });
   }
 
   cargarMensaje()
@@ -50,6 +54,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     if(this.mensaje)
     {
       this.mensajes.push(this.mensaje);
+      this.mensajesService.crear(this.mensaje);
       this.mensaje = null;
     }
   }
@@ -60,5 +65,25 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     setTimeout(() => {
         this.content.scrollToBottom(300);
     }, 500);
+  }
+
+  cambiarColor()
+  {
+    let estilo;
+
+    if(this.color == 'primary')
+    {
+      estilo = {
+        background: '--ion-color-primary !important'
+      }
+    }
+    else if(this.color == 'secondary')
+    {
+      estilo = {
+        background: '--ion-color-secondary !important'
+      }
+    }
+
+    return estilo;
   }
 }
