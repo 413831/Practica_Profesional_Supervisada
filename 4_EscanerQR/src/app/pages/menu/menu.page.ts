@@ -1,5 +1,5 @@
 import { AfterContentChecked, Component, OnDestroy, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { ActionSheetController, LoadingController, Platform, ToastController } from '@ionic/angular';
+import { ActionSheetController, AlertController, LoadingController, Platform, ToastController } from '@ionic/angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
@@ -26,7 +26,8 @@ export class MenuPage implements OnDestroy, OnInit {
               public actionSheetController: ActionSheetController,
               public loadingController: LoadingController,
               private toastController: ToastController,
-              private detector: ChangeDetectorRef) 
+              private detector: ChangeDetectorRef,
+              private alertController: AlertController) 
   { 
     console.log("Constructor");
    
@@ -122,16 +123,20 @@ export class MenuPage implements OnDestroy, OnInit {
             this.dataService.fetchQR(scan)
                 .then(snapshot =>
                 {
-                  
+                  if(this.validarCodigo(this.usuario,scan))
+                  {
                     this.dataQR = snapshot.val().valor;
-
-                    this.usuario.codigos.push(scan);
                     this.usuario.credito += this.dataQR;
+                    this.usuario.codigos.push(scan);
 
                     this.dataService.actualizar(this.usuario)
                         .then(() => this.presentLoading("Actualizando..."))
-                        .finally(() => this.presentToast(`Carga realizada de ${this.usuario.credito}`));
-                  
+                        .finally(() => this.presentToast(`CARGA REALIZADA DE ${this.dataQR}`));
+                  }
+                  else
+                  {
+                    this.presentAlert("CÓDIGO YA UTILIZADO");
+                  }
                 })
                 .catch(error => this.presentToast(error));
           }
@@ -162,13 +167,16 @@ export class MenuPage implements OnDestroy, OnInit {
       //this.test = `El rol del usuario es : ${this.usuario.rol}`;
       return true;
     }
-    else if(usuario.codigos.filter(aux => aux == codigo).length <= 2 &&
+    else if(usuario.codigos.filter(aux => aux == codigo).length < 2 &&
             usuario.rol == 'admin')
     {
       //this.test = `El rol del usuario es : ${this.usuario.rol}`;
-      return true
+      return true;
     }
-    return false;
+    else
+    {
+      return false;
+    }
   }
 
   configurar()
@@ -179,7 +187,7 @@ export class MenuPage implements OnDestroy, OnInit {
   borrarCreditos()
   {
     this.usuario.credito = 0;
-    this.usuario.codigos = [];
+    this.usuario.codigos = ['0'];
     this.dataService.actualizar(this.usuario)
                     .then(()=> this.presentToast("Crédito reseteado"));
   }
@@ -190,6 +198,15 @@ export class MenuPage implements OnDestroy, OnInit {
       duration: 2000
     });
     toast.present();
+  }
+
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      header: 'Atención',
+      message,
+    });
+  
+    await alert.present();
   }
 
 }

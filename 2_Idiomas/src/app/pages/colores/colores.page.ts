@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { AudioService, ILenguajeSeleccionado } from 'src/app/services/audio.service';
+import { AudioService, Idioma, ILenguajeSeleccionado } from 'src/app/services/audio.service';
 
 @Component({
   selector: 'app-colores',
@@ -8,7 +8,7 @@ import { AudioService, ILenguajeSeleccionado } from 'src/app/services/audio.serv
 })
 export class ColoresPage implements OnInit, AfterViewInit {
   opcion: ILenguajeSeleccionado;
-  
+
   colores: { nombre,img, audio_es, audio_en, audio_pt }[] = 
   [
     {
@@ -55,24 +55,35 @@ export class ColoresPage implements OnInit, AfterViewInit {
     },
   ];
 
+  banderas : ILenguajeSeleccionado[] = [
+    {
+      idioma: Idioma.Español,
+      img : '/assets/img/spanish.png'
+    },
+    {
+      idioma: Idioma.Ingles,
+      img : '/assets/img/english.png'
+    },
+    {
+      idioma: Idioma.Portugues,
+      img : '/assets/img/portuguese.png'
+    }
+  ];
+  
+
   constructor(private audioService: AudioService) 
   {
-    this.opcion = AudioService.idiomaSeleccionado; 
+    
   }
 
   ngAfterViewInit()
   {
-    for (let index = 0; index < this.colores.length; index++) 
-    {
-      const color =  this.colores[index];
-      console.log(color);
-      this.audioService.preload(color.nombre + "-es", color.audio_es);  
-      this.audioService.preload(color.nombre + "-en", color.audio_en);  
-      this.audioService.preload(color.nombre + "-pt", color.audio_pt);  
-    }
+    
   }
 
-  ngOnInit() {
+  ngOnInit() 
+  {
+    this.opcion = AudioService.idiomaSeleccionado; 
   }
 
   play(audioId: string)
@@ -80,5 +91,15 @@ export class ColoresPage implements OnInit, AfterViewInit {
     console.log("Audio id: ",audioId);
     this.audioService.play(audioId);
   }
+
+  seleccionar(opcion: ILenguajeSeleccionado)
+  {
+    this.opcion.idioma = opcion.idioma;
+    this.opcion.img = opcion.img;
+
+    AudioService.idiomaSeleccionado = this.opcion;
+    console.log(AudioService.idiomaSeleccionado);
+  }
+
 
 }

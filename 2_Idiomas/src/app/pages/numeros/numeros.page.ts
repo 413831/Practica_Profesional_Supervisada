@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { AudioService, ILenguajeSeleccionado } from 'src/app/services/audio.service';
+import { AudioService, Idioma, ILenguajeSeleccionado } from 'src/app/services/audio.service';
 
 @Component({
   selector: 'app-numeros',
@@ -90,6 +90,21 @@ export class NumerosPage implements OnInit, AfterViewInit {
     },
   ];
 
+  banderas : ILenguajeSeleccionado[] = [
+    {
+      idioma: Idioma.Español,
+      img : '/assets/img/spanish.png'
+    },
+    {
+      idioma: Idioma.Ingles,
+      img : '/assets/img/english.png'
+    },
+    {
+      idioma: Idioma.Portugues,
+      img : '/assets/img/portuguese.png'
+    }
+  ];
+
   constructor(private audioService: AudioService) 
   {
     this.opcion = AudioService.idiomaSeleccionado; 
@@ -97,24 +112,27 @@ export class NumerosPage implements OnInit, AfterViewInit {
 
   ngAfterViewInit()
   {
-    for (let index = 0; index < this.numeros.length; index++) 
-    {
-      const numero =  this.numeros[index];
-      console.log(numero);
-      this.audioService.preload(numero.nombre + "-es", numero.audio_es);  
-      this.audioService.preload(numero.nombre + "-en", numero.audio_en);  
-      this.audioService.preload(numero.nombre + "-pt", numero.audio_pt);  
-    }
+   
     
   }
 
-  ngOnInit() {
+  ngOnInit() 
+  {
   }
 
   play(audioId: string)
   {
     console.log("Audio id: ",audioId);
     this.audioService.play(audioId);
+  }
+
+  seleccionar(opcion: ILenguajeSeleccionado)
+  {
+    this.opcion.idioma = opcion.idioma;
+    this.opcion.img = opcion.img;
+
+    AudioService.idiomaSeleccionado = this.opcion;
+    console.log(AudioService.idiomaSeleccionado);
   }
 
 }

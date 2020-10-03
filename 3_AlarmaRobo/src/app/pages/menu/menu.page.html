@@ -2,22 +2,15 @@
 
 <ion-content class="fondo" color="dark">
 
-    <ion-chip color="primary" mode="ios" outline="true">
+    <ion-chip color="dark" mode="ios" outline="true">
         <ion-label>X : {{ejeX}}</ion-label>
     </ion-chip>
-    <ion-chip color="primary" mode="ios" outline="true">
-        <ion-label>Y : {{ejeY}}</ion-label>
-    </ion-chip>
-    <ion-chip color="primary" mode="ios" outline="true">
-        <ion-label>Z : {{ejeZ}}</ion-label>
-    </ion-chip>
 
+    <ion-list lines="none" class="ion-no-margin" >
 
-    <ion-list lines="none" class="ion-no-margin" color="dark">
-
-        <ion-item>
-            <ion-label mode="ios" class="center-content" class="ion-justify-content-center">
-                <h1>Presione la alarma</h1>
+        <ion-item color="dark" >
+            <ion-label mode="ios"  class="ion-text-center" >
+                <h1><b>Presione la alarma</b></h1>
             </ion-label>
         </ion-item>
 
@@ -28,23 +21,21 @@
         <ion-icon class="icon" name="warning-outline"></ion-icon>
     </ion-button>
 
-
     <ion-list lines="none" class="ion-no-margin" color="dark">
 
-
-        <ion-item color="warning" class="ion-justify-content-center">
-            <ion-label *ngIf="estado == 1">Alarma activada</ion-label>
-            <ion-label *ngIf="estado == 0">Alarma desactivada</ion-label>
+        <ion-item color="warning" class="ion-justify-content-center"  strong="true">
+            <ion-label *ngIf="estado == 1" class="ion-text-center"><h3>Alarma activada</h3></ion-label>
+            <ion-label *ngIf="estado == 0" class="ion-text-center"><h3>Alarma desactivada</h3></ion-label>
         </ion-item>
-
 
         <ion-item *ngIf="estado == 1" color="medium" class="ion-padding">
-            <ion-label position="fixed">Ingrese su contraseña para desactivar</ion-label>
+            <ion-label position="floating">Ingrese su contraseña para desactivar</ion-label>
             <ion-input [(ngModel)]="password" type="password"></ion-input>
-            <ion-button (click)="desactivarAlarma()" expand="block" fill="solid" shape="round">
-                DESACTIVAR
-            </ion-button>
         </ion-item>
+        <ion-button *ngIf="estado == 1" size="large" (click)="desactivarAlarma()" 
+                    expand="block" fill="solid" shape="round">
+            DESACTIVAR
+        </ion-button>
 
     </ion-list>
 

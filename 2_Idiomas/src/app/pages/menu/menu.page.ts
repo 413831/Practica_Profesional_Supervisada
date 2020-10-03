@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Platform, ViewWillEnter } from '@ionic/angular';
 import { AudioService, Idioma, ILenguajeSeleccionado } from 'src/app/services/audio.service';
 
 
@@ -7,8 +8,8 @@ import { AudioService, Idioma, ILenguajeSeleccionado } from 'src/app/services/au
   templateUrl: './menu.page.html',
   styleUrls: ['./menu.page.scss'],
 })
-export class MenuPage implements OnInit {
-  idiomaSeleccionado: ILenguajeSeleccionado;
+export class MenuPage implements OnInit, ViewWillEnter {
+  opcion: ILenguajeSeleccionado;
   slides: { img: string, route: string }[] = [
     {
       img: '/assets/img/animales_1.jpg',
@@ -39,23 +40,25 @@ export class MenuPage implements OnInit {
     }
   ];
 
-  constructor() 
+  constructor(private audioService: AudioService, private platform: Platform) 
   {
-    this.idiomaSeleccionado = {
-      idioma : Idioma.Español,
-      img: this.banderas[0].img
-    }
+    this.opcion = AudioService.idiomaSeleccionado; 
+    
+  }
+  ionViewWillEnter(): void {
+    // por defecto Español
+    console.log("View ENTER");
   }
 
   ngOnInit() {
   }
 
   seleccionar(opcion: ILenguajeSeleccionado)
-  {
-    this.idiomaSeleccionado.idioma = opcion.idioma;
-    this.idiomaSeleccionado.img = opcion.img;
+  {   
+    this.opcion.idioma = opcion.idioma;
+    this.opcion.img = opcion.img;
 
-    AudioService.idiomaSeleccionado = this.idiomaSeleccionado;
+    AudioService.idiomaSeleccionado = this.opcion;
     console.log(AudioService.idiomaSeleccionado);
   }
 }

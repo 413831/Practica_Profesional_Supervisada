@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { SplashComponent } from './components/splash/splash.component';
+import { AudioService } from './services/audio.service';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +18,14 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private modalCtrl: ModalController,
-    private router: Router
+    private router: Router,
+    private audioService: AudioService
   ) {
     platform.ready().then(() => {
-      this.presentModal().then(() => this.router.navigate(['/inicio']));
+      this.presentModal();
+      this.audioService.cargarAudio().then(() =>{
+       this.router.navigate(['/inicio']);
+      })
     });
   }
 
@@ -28,6 +33,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      
     });
   }
 

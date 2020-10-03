@@ -1,4 +1,4 @@
-<ion-content color="medium" class="ion-padding" *ngIf="mensajes">
+<ion-content color="light" class="ion-padding" *ngIf="mensajes" #content>
 
       <ion-grid fixed *ngFor="let mensaje of mensajes; let i = index">
         
@@ -6,13 +6,18 @@
 
           <ion-col size="12">
 
-            <ion-chip color="light" mode="ios" outline="true">
-              <ion-label class="ion-text-end">{{mensaje.texto}}</ion-label>
-            </ion-chip>
-            
-            <ion-chip color="primary" mode="ios" outline="false">
-              <ion-label>{{mensaje.nombreUsuario}}</ion-label>
-            </ion-chip>
+            <div class="ion-text-start mensaje-ajeno" >
+
+              <ion-chip color="primary" mode="ios" outline="true">
+                <ion-label >{{mensaje.nombreUsuario}}</ion-label>
+              </ion-chip>
+              
+              <ion-textarea [value]="mensaje.texto" rows="1"
+                             autoGrow="true" color="dark" mode="ios"  readonly="true">
+                
+              </ion-textarea>
+
+            </div>
 
           </ion-col>
 
@@ -22,11 +27,16 @@
          
           <ion-col size="12" >
 
-            <div class="ion-text-end">
+            <div class="ion-text-end mensaje-propio" >
 
-              <ion-chip color="tertiary" mode="ios" outline="false" >
-                <ion-label color="light">{{mensaje.texto}}</ion-label>
+              <ion-chip color="tertiary" mode="ios" outline="true">
+                <ion-label >{{mensaje.nombreUsuario}}</ion-label>
               </ion-chip>
+              
+              <ion-textarea  [value]="mensaje.texto" rows="1"
+                             autoGrow="true" color="dark" mode="ios" readonly="true">
+                
+              </ion-textarea>
 
             </div>
 

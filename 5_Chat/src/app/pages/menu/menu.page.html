@@ -1,13 +1,16 @@
-<app-header titulo="Menu"></app-header>
+<app-header titulo="Menú"></app-header>
 
 
-<ion-content>
-
-    <ion-button [routerLink]="['/sala4a']" expand="block" fill="solid" shape="round">
-        Sala 4A
+<ion-content color="dark">
+    <ion-title class="ion-padding" strong="true">Elegí la sala para charlar</ion-title>
+    
+    <ion-button class="boton-grande" [routerLink]="['/sala4a']" color="tertiary"
+                 expand="block" fill="solid" shape="round">
+        <h1><b><ion-label strong="true">Sala 4A</ion-label> </b></h1>
     </ion-button>
-    <ion-button [routerLink]="['/sala4b']" expand="block" fill="solid" shape="round">
-        Sala 4B
+    <ion-button class="boton-grande" [routerLink]="['/sala4b']" color="tertiary"
+                expand="block" fill="solid" shape="round">
+        <h1><b><ion-label strong="true">Sala 4B</ion-label> </b></h1>
     </ion-button>
 
 </ion-content>

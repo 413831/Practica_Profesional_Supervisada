@@ -5,11 +5,10 @@ import { Gyroscope, GyroscopeOrientation, GyroscopeOptions } from '@ionic-native
 import { Sensors, TYPE_SENSOR } from '@ionic-native/sensors/ngx';
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
 import { DeviceMotion, DeviceMotionAccelerationData, DeviceMotionAccelerometerOptions } from '@ionic-native/device-motion/ngx';
-import { Backlight } from '@ionic-native/backlight/ngx';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { Flashlight } from '@ionic-native/flashlight/ngx';
 
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 
 import { DataService } from 'src/app/services/data.service';
 import { AudioService } from 'src/app/services/audio.service';
@@ -35,14 +34,15 @@ export class MenuPage implements OnInit {
   
   constructor(private platform: Platform, private deviceMotion: DeviceMotion, 
               private flashlight: Flashlight, private vibration: Vibration,   
-              private dataService: DataService, private audioService: AudioService) 
+              private dataService: DataService, private audioService: AudioService,
+              private alertController: AlertController) 
   {   
     this.platform.ready().then(() => {
       this.audioService.preload('derecha','assets/audio/derecha.mp3');
       this.audioService.preload('izquierda','assets/audio/izquierda.mp3');
       this.audioService.preload('vertical','assets/audio/vertical.mp3');
       this.audioService.preload('horizontal','assets/audio/horizontal.mp3');
-      this.posicion = 'horizontal';
+     
     });
   }
 
@@ -57,6 +57,7 @@ export class MenuPage implements OnInit {
     console.log('Estado --------------------------------------------',this.estado);
 
     this.start();
+    this.presentAlert("Alarma activada");
   }
 
   desactivarAlarma()
@@ -71,6 +72,7 @@ export class MenuPage implements OnInit {
                 this.estado = Estado.DESACTIVADA;
                 this.deshabilitarBoton = false;
                 this.stop();
+                this.presentAlert("Alarma desactivada");
               })
         });
   }
@@ -90,37 +92,37 @@ export class MenuPage implements OnInit {
         this.ejeY = "" + acc.y;
         this.ejeZ = "" + acc.z;
         this.timeStamp = "" + acc.timestamp;
+        this.flashlight.switchOff();
 
-        if(this.ejeX > 1 && this.ejeX < 8 && this.posicion != 'izquierda' ||
-           this.posicion == 'horizontal')
+        if(this.posicion != 'izquierda' && this.ejeX > 1 && this.ejeX < 8)
         {
-          this.audioService.play('izquierda');
           this.posicion = 'izquierda';
+          this.audioService.play('izquierda');
         }
 
-        if(this.ejeX < -1 && this.ejeX > -8 && this.posicion != 'derecha')
+        if(this.posicion != 'derecha' && this.ejeX < -1 && this.ejeX > -8 )
         {
-          this.audioService.play('derecha');
           this.posicion = 'derecha';
+          this.audioService.play('derecha');
         }
 
-        if(this.posicion != 'horizontal' && this.ejeX > 8 && this.ejeX < 11 || 
-          this.posicion != 'horizontal' && this.ejeX < -8 && this.ejeX > -11)
+        if(this.posicion != 'horizontal' && 
+          this.ejeX > 8 && this.ejeX < 11 || this.ejeX < -8 && this.ejeX > -11)
         {
+          this.posicion = 'horizontal';       
           this.audioService.play('horizontal');
           this.vibration.vibrate(5000);
-          this.posicion = 'horizontal';
         }
 
-        if(this.posicion != 'vertical' && (this.ejeX <= 1 && this.ejeX >= -1 ||
-            this.ejeX == 0 || this.ejeX == -0))
+        if(this.posicion != 'vertical' && 
+            this.ejeX <= 1 && this.ejeX >= -1 || this.ejeX == 0 || this.ejeX == -0)
         {
+          this.posicion = 'vertical';
+          this.audioService.play('vertical');
           setTimeout(() => {
             this.flashlight.switchOn();
           }, 5000);
           this.flashlight.switchOff();
-          this.audioService.play('vertical');
-          this.posicion = 'vertical';
         }
 
 
@@ -135,6 +137,18 @@ export class MenuPage implements OnInit {
   stop()
   {
     this.deviceRef.unsubscribe();
+  }
+
+  async presentAlert(message) 
+  {
+    const alert = await this.alertController.create({
+      header: 'Atención',
+      message,
+      mode: "ios",
+      translucent: true
+    });
+  
+    await alert.present();
   }
 
 }

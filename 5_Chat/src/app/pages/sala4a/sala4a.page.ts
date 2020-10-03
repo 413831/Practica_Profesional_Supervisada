@@ -3,7 +3,7 @@ import { LoadingController } from '@ionic/angular';
 import { Mensaje } from 'src/app/clases/mensaje';
 import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
-import { MensajesService } from 'src/app/services/mensajes.service';
+import { MensajesService, Salas } from 'src/app/services/mensajes.service';
 
 @Component({
   selector: 'app-sala4a',
@@ -16,11 +16,9 @@ export class Sala4aPage implements OnInit {
   mensajes: Mensaje[];
   textoAuxiliar : string;
 
-  constructor(private dataService: DataService, private mensajeService: MensajesService, 
-              private loadingController: LoadingController) 
+  constructor(private dataService: DataService, private mensajeService: MensajesService) 
   {
-    this.mensajes = MensajesService.mensajes;
-    this.presentLoading("Ingresando...");
+    this.mensajes = MensajesService.mensajes.filter(msj => msj.sala == Salas._4A);
   }
 
   ngOnInit() 
@@ -39,8 +37,8 @@ export class Sala4aPage implements OnInit {
     console.log(this.textoAuxiliar);
     if(this.textoAuxiliar)
     {
-      this.mensaje = Mensaje.CrearMensaje(this.textoAuxiliar, this.usuario.id, this.usuario.alias,
-                                          new Date().toUTCString(), "sala4A");
+      this.mensaje = Mensaje.CrearMensaje('0',this.textoAuxiliar, this.usuario.id, this.usuario.alias,
+                                          new Date().toUTCString(), Salas._4A);
       this.textoAuxiliar = null;
     }
   }
@@ -54,13 +52,5 @@ export class Sala4aPage implements OnInit {
         });
   }
 
-  async presentLoading(message) {
-    const loading = await this.loadingController.create({
-      message,
-      duration: 2000,
-      spinner: 'dots'
-    });
-    await loading.present();
-  }
 
 }

@@ -1,20 +1,26 @@
-import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { IonContent, ViewDidEnter, ViewWillEnter } from '@ionic/angular';
 import { Mensaje } from 'src/app/clases/mensaje';
+import { MensajesService } from 'src/app/services/mensajes.service';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() mensajes: Mensaje[] = [];
   @Input() mensaje: Mensaje;
   @Input() idUsuario: string;
 
-  constructor() { }
+  @ViewChild(IonContent, {read: IonContent, static: false}) content: IonContent;
 
-  ngOnInit() {}
+  constructor(private mensajesService: MensajesService) { }
 
+  ngOnInit(): void {
+    this.scrollToBottomOnInit();
+  }
+ 
 
   ngAfterViewChecked(): void {
     //Called after every check of the component's view. Applies to components only.
@@ -27,6 +33,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  ngOnDestroy(): void {
+
+    this.mensajes.forEach(mensaje => {
+      if(mensaje.id == '0')
+      {
+        console.info(mensaje);
+        this.mensajesService.crear(mensaje);
+      }
+    });
+  }
 
   cargarMensaje()
   {
@@ -38,4 +54,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
   }
 
+
+  scrollToBottomOnInit() {
+    console.log("SCROLLING");
+    setTimeout(() => {
+        this.content.scrollToBottom(300);
+    }, 500);
+  }
 }
