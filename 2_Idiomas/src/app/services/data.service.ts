@@ -72,7 +72,7 @@ export class DataService {
     let usuarios = [];
     console.info("Fetch de todos los Usuarios");
 
-    database().ref('usuario').on('value',(snapshot) => {          
+    database().ref('usuarios').on('value',(snapshot) => {          
         usuarios = [];  
         snapshot.forEach((child) =>{
           var data = child.val();

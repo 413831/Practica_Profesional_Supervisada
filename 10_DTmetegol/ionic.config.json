@@ -1,7 +1,8 @@
 {
   "name": "DTmetegol",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

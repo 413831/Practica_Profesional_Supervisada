@@ -1,32 +1,37 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Usuario } from '../clases/usuario';
+import { database } from 'firebase';
+import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  private usuarioTest: Usuario = { 
-    id : 0,
-    nombre: '',
-    email: 'pepito@mail.com', 
-    pass: 'Secreta'
-  }; 
-  private usuarios: Usuario[] = [];
+  public static usuarios: Usuario[] = [];
   private static idUsuario = 0;
+  public static usuarioActual: Usuario = new Usuario();
 
-  constructor(private firebaseAuth: AngularFireAuth) 
+  constructor(private firebaseAuth: AngularFireAuth,
+              private storage: Storage) 
   {
   }
 
   login(usuario: Usuario)
   {
     // return this.test(usuario);
-    console.log(usuario);
     return new Promise<any>((resolve, reject) => {
-      this.firebaseAuth.signInWithEmailAndPassword(usuario.email, usuario.pass)
-                        .then(response => resolve(response),error => reject(error));
+            this.firebaseAuth.signInWithEmailAndPassword(usuario.email, usuario.pass)
+                .then(response => 
+                  {
+                    console.log("Login");
+                    this.guardarLocal(response.user.uid).then((res) => {
+                      console.log(res);
+                      resolve(response);
+                    });
+                  },error => reject(error));
     });
   }
 
@@ -34,9 +39,13 @@ export class DataService {
   {
     return new Promise<any>((resolve,reject) => {
       this.firebaseAuth.createUserWithEmailAndPassword(usuario.email, usuario.pass)
-                        .then(response => resolve(response), error => reject(error));
+                        .then(response => {
+                          usuario.pass = null;
+                          this.crear(usuario, response.user.uid);
+                          resolve(response);
+                        }, 
+                        error => reject(error));
     });
-
   }
 
   gerUserDetail()
@@ -44,8 +53,75 @@ export class DataService {
     return this.firebaseAuth.currentUser;
   }
 
-  test(usuario: Usuario)
+  public crear(usuario: Usuario, uid: string): Promise<any>
   {
-    return usuario.email == this.usuarioTest.email && usuario.pass == this.usuarioTest.pass;    
+    usuario.rol = "Usuario";
+
+    return database().ref('usuarios/' + uid)
+              .set(usuario)
+              .then(() => usuario.id = uid)
+              .then(()=> this.actualizar(usuario))
+              .catch(() => console.info("No se pudo realizar alta"));
   }
+
+  public guardarLocal(id: string)
+  {
+    console.log(id);
+
+    const promesa = new Promise<any>(resolve => {
+                    database().ref('usuarios/' + id).on('value',(snapshot) =>{
+                      console.log("Guardar Local Storage");
+                      DataService.usuarioActual = snapshot.val();
+                      this.storage.set('usuario', snapshot.val());
+                      resolve(DataService.usuarioActual);
+                    });
+    })
+
+    return promesa;           
+  }
+
+  public obtenerLocal() : Promise<void | Usuario>
+  {
+    console.log("Obtener Local Storage");
+    return this.storage.get('usuario');
+  }
+
+  public leer(): Usuario[]
+  {
+    DataService.usuarios = [];
+    let usuarios = [];
+    console.info("Fetch de todos los Usuarios");
+
+    database().ref('usuarios').on('value',(snapshot) => {          
+        usuarios = [];  
+        snapshot.forEach((child) =>{
+          var data = child.val();
+          usuarios.push(Usuario.CrearUsuario(child.key, data.nombre, data.dni, data.email,
+                                             data.rol, data.ganados, data.perdidos));
+        });
+        console.info("Fetch Usuarios");
+        DataService.usuarios = usuarios;
+        console.info(DataService.usuarios);
+    })
+    return usuarios;
+  }
+
+  public actualizar(usuario: Usuario): Promise<any>
+  {
+    return database().ref('usuarios/' + usuario.id)
+                  .update(usuario)
+                  .then(() => this.guardarLocal(usuario.id))
+                  .catch(() => console.info("No se pudo actualizar"));
+  }
+
+  public borrar(id: number): Promise<any>
+  {
+    return database().ref('usuarios/' + id)
+                  .remove()
+                  .then(() => console.info("Usuario eliminado"))
+                  .catch(() => console.info("No se pudo realizar la baja."));
+  }
+
+
+
 }

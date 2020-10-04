@@ -20,7 +20,7 @@ export class AppComponent {
     private router: Router
   ) {
     platform.ready().then(() => {
-      this.presentModal().then(() => this.router.navigate(['/home']));
+      this.presentModal().then(() => this.router.navigate(['/inicio']));
     });
   }
 
