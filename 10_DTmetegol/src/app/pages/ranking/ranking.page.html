@@ -1,9 +1,11 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>ranking</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header titulo="Ranking"></app-header>
 
-<ion-content>
+<ion-content class="fondo">
+  <ion-list *ngFor="let usuario of usuarios">
+    <ion-item>
+      <h2><ion-label>{{usuario.nombre}}</ion-label></h2>
+      <ion-label>Partidos ganados:{{usuario.ganados}}</ion-label>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

@@ -85,14 +85,18 @@ export class AltaPartidoPage implements OnInit {
     switch(equipo)
     {
       case TipoEquipo.A :
-        this.equipoA = Equipo.CrearEquipo(usuario.id, usuario.nombre, 0);
+        if(usuario.id != this.equipoB.id)
+        {
+          this.equipoA = Equipo.CrearEquipo(usuario.id, usuario.nombre, 0);
+        }
         break;
       case TipoEquipo.B :
-        this.equipoB = Equipo.CrearEquipo(usuario.id, usuario.nombre, 0);
+        if(usuario.id != this.equipoA.id)
+        {
+          this.equipoB = Equipo.CrearEquipo(usuario.id, usuario.nombre, 0);
+        }
         break;
     }
-    console.log(this.equipoA);
-    console.log(this.equipoB);
   }
 
   cambioFecha(event)

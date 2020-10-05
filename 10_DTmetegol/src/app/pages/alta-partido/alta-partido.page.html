@@ -1,19 +1,19 @@
 <app-header titulo="Nuevo partido"></app-header>
 
-<ion-content color="dark">
-  <div id="container">
-    <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()" color="dark">
+<ion-content class="fondo">
+  <div id="container" >
+    <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()"  >
 
-      <ion-list lines="none">
+      <ion-list lines="none" class="contenido">
 
-        <ion-item color="dark">
+        <ion-item >
           <ion-label mode="ios" position="fixed">Fecha : </ion-label>
           <ion-datetime mode="ios" display-format="YYYY MMMM DD" min="2015-01-01" name="fecha"
                       [ngModel]="fechaActual" (ionChange)="cambioFecha($event)">
           </ion-datetime>
         </ion-item>
 
-        <ion-item color="dark" >
+        <ion-item  >
 
           <ion-button mode="ios" expand="full" fill="clear" (click)="elegirEquipo($event, 'equipoA')">
             <ion-icon size="large" name="football" slot="end"></ion-icon>
@@ -21,7 +21,7 @@
           </ion-button>
 
         </ion-item>
-        <ion-item color="dark">
+        <ion-item >
 
           <ion-button mode="ios" expand="full" fill="clear" 
                       (click)="elegirEquipo($event, 'equipoB')">

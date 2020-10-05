@@ -1,7 +1,12 @@
-<app-header titulo="Futbolito"></app-header>
+<ion-header  translucent >
+  <ion-toolbar color="tertiary">
 
-<ion-content>
-  <div id="container">
+    <ion-title color="light" text-capitalize>Futbolito</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="fondo">
+  <div id="container" class="contenido">
     <ion-button size="large" [routerLink]="['/login']" expand="block" fill="solid" mode="ios">
       Entrar
     </ion-button>

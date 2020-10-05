@@ -1,10 +1,11 @@
 <app-header titulo="Carga de resultados"></app-header>
 
-<ion-content>
-  <ion-list #lista>
+<ion-content class="fondo">
+  
+  <ion-list #lista class="contenido">
     <ion-item-sliding *ngFor="let partido of partidos">
-      <ion-chip color="primary" outline="true">
-        <ion-label>{{partido.fecha | date:'short' }}</ion-label>
+      <ion-chip color="dark" outline="true">
+        <ion-label>Fecha{{partido.fecha | date:'short' }}</ion-label>
       </ion-chip>
       <ion-item>
 
