@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'home',
-  //   pathMatch: 'full'
-  // },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
   {
     path: 'bonitas',
     loadChildren: () => import('./pages/bonitas/bonitas.module').then( m => m.BonitasPageModule)
@@ -26,6 +26,14 @@ const routes: Routes = [
   {
     path: 'menu',
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
+  },
+  {
+    path: 'listado',
+    loadChildren: () => import('./pages/listado/listado.module').then( m => m.ListadoPageModule)
+  },
+  {
+    path: 'graficos',
+    loadChildren: () => import('./pages/graficos/graficos.module').then( m => m.GraficosPageModule)
   }
 ];
 

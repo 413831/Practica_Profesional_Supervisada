@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { mainModule } from 'process';
+import { TipoImagen } from 'src/app/clases/imagen';
 import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
+import { ImagenService } from 'src/app/services/imagen.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -21,10 +23,13 @@ export class HomePage implements OnInit {
   constructor(public alertCtrl: AlertController, 
               private dataService: DataService,
               public toastController: ToastController,
-              private router: Router) {
+              private router: Router,
+              private imagenService: ImagenService) {
                }
 
-  ngOnInit() {
+  ngOnInit() 
+  {
+    this.imagenService.fetchAll();
   }
 
   async presentAlertPrompt() {

@@ -22,20 +22,20 @@ export class BonitasPage implements OnInit {
               private loadingController: LoadingController,
               private toastController: ToastController) 
   {
-    // Cargo las imagenes guardadas
-    this.imagenes = ImagenService.fotosBonitas;
-    
-    this.presentLoading("Cargando...");
     this.usuario = new Usuario();
     // Cargo el usuario logueado
     this.dataService.obtenerLocal()
         .then( data => {
           this.usuario = Object.assign(new Usuario, data);
         });
-
   }
 
-  ngOnInit() {}
+  ngOnInit() 
+  {
+    console.log("INIT");
+     // Cargo las imagenes guardadas
+     this.imagenes = ImagenService.fotosBonitas;
+  }
 
   async subirFoto() 
   {

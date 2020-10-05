@@ -17,8 +17,8 @@ const { Camera } = Plugins;
 export class ImagenService {
   public static fotosFeas: Imagen[] = [];
   public static fotosBonitas: Imagen[] = [];
-  public static test: number = 0;
-  public imagenes = [];
+  public static fotosUsuario: Imagen[] = [];
+  public static imagenes = [];
 
   constructor(private storage : AngularFireStorage, private toastController: ToastController) 
   {
@@ -43,7 +43,7 @@ export class ImagenService {
     .then( imageData => {
       console.log(imageData);
       imagen.base64 = imageData.base64String;
-      imagen.fecha = new Date();
+      imagen.fecha = new Date().toUTCString();
       imagen.usuario = usuario.id;
       imagen.nombreUsuario = usuario.nombre;
       imagen.tipo = tipo;
@@ -86,7 +86,7 @@ export class ImagenService {
       customMetadata: {
         user : imagen.usuario,
         userName : imagen.nombreUsuario,
-        date : imagen.fecha.toDateString(),
+        date : imagen.fecha,
         puntaje: imagen.votos.length.toString()
       }
     };
@@ -128,45 +128,46 @@ export class ImagenService {
                     .catch(() => console.info("No se pudo realizar la baja."));
   }
 
-  public fetchAll()
+  public async fetchAll()
   {
-    this.imagenes = [];
-    console.info("Fetch de todas las imagenes");
+    const fetch = await database().ref('imagenes').on('value',(snapshot) => 
+    {
+      ImagenService.imagenes = [];
 
-    database().ref('imagenes').on('value',(snapshot) => 
-    {           
       snapshot.forEach((child) =>
       {
         var data = child.val();
         let aux = Imagen.CrearImagen(data.id, data.base64, data.url, data.usuario, data.nombreUsuario,
                                       data.fecha, data.tipo, data.votos);
-        this.imagenes.push(aux);
-        console.log(this.imagenes);
+        ImagenService.imagenes.push(aux);
+        
       });
-      console.info("Fetch imagenes");
+      console.info("Fetch de todas las imagenes");
+      console.info(ImagenService.imagenes);
+      this.getFeas();
+      this.getLindas();
     });
-    console.log(this.imagenes);
-    return this.imagenes;
+    return fetch;
   }
 
-  public fetchUsuario(usuario: string): Imagen[]
+  public fetchUsuario(id: string)
   {
-    let imagenes = [];
-    console.info("Fetch de imagnes del usuario");
+    ImagenService.fotosUsuario = ImagenService.imagenes.filter( img => img.usuario == id)
+                                                      .sort((a,b)=>this.comparadorFechas(a,b));
+  }
 
-    database().ref('imagenes').on('value',(snapshot) => {          
-      imagenes = [];  
-        snapshot.forEach((child) =>{
-          var data = child.val();
-          if(data.usuario == usuario)
-          {
-            imagenes.push(Imagen.CrearImagen(data.id, data.base64, data.url, data.usuario, data.nombreUsuario,
-                                              data.fecha, data.tipo, data.votos));
-          }
-        });
-        console.info("Fetch imagenes");
-    })
-    return imagenes;
+  public getFeas()
+  {
+    ImagenService.fotosFeas = ImagenService.imagenes
+                  .filter( img => img.tipo == TipoImagen.NEGATIVA)
+                  .sort((a,b)=>this.comparadorFechas(a,b));
+  }
+
+  public getLindas()
+  {
+    ImagenService.fotosBonitas = ImagenService.imagenes
+                  .filter( img => img.tipo == TipoImagen.POSITIVA)
+                  .sort((a,b)=>this.comparadorFechas(a,b));
   }
 
   async presentToast(message) {
@@ -177,20 +178,24 @@ export class ImagenService {
     toast.present();
   }
 
-  comparadorFechas(fechaA: Date, fechaB: Date)
+  comparadorFechas(fotoA: Imagen, fotoB: Imagen)
   {
-    if(fechaA.getMilliseconds > fechaB.getMilliseconds)
+    let retorno;
+
+    if(new Date(fotoA.fecha).getMilliseconds() > new Date(fotoB.fecha).getMilliseconds())
     {
-      return -1;
+      retorno = -1;
     }
-    else if(fechaA.getMilliseconds < fechaB.getMilliseconds)
+    else if(new Date(fotoA.fecha).getMilliseconds() < new Date(fotoB.fecha).getMilliseconds())
     {
-      return 1;
+      retorno = 1;
     }
     else
     {
-      return 0;
+      retorno = 0;
     }
+    console.log(retorno);
+    return retorno;
   }
 
 }

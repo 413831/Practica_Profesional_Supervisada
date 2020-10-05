@@ -5,7 +5,7 @@ export class Imagen
     base64: string;
     usuario: string;
     nombreUsuario: string;
-    fecha: Date;
+    fecha: string;
     tipo: TipoImagen;
     votos: string[];
 
@@ -15,7 +15,7 @@ export class Imagen
     }
 
     public static CrearImagen(id: string, base64: string, url: string, usuario: string, 
-                            nombreUsuario: string,fecha: Date, tipo: TipoImagen, votos: string[])
+                            nombreUsuario: string,fecha: string, tipo: TipoImagen, votos: string[])
     {
         let imagen = new Imagen();
 

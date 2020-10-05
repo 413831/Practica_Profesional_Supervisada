@@ -1,11 +1,11 @@
 <ion-card  size="12" size-lg="6" size-md="6" size-sm="6" size-xs="12" color="light" *ngIf="imagen">
   <ion-card-header color="light">
     <ion-card-title>{{imagen.fecha | date:'short' }}</ion-card-title>
-    <ion-card-subtitle>{{imagen.nombreUsuario}}</ion-card-subtitle>
+    <ion-card-subtitle>Subida por:  {{imagen.nombreUsuario}}</ion-card-subtitle>
   </ion-card-header>
   <ion-img class="imagen" *ngIf="imagen.url" [src]="imagen.url"></ion-img>
   <ion-card-content class="ion-justify-content-around" >
-    <ion-label *ngIf="imagen.votos">Votos: {{imagen.votos.length}}</ion-label>
+    <ion-label *ngIf="imagen.votos">Votos:{{imagen.votos.length}}</ion-label>
     <ion-spinner  *ngIf="!imagen.url" color="primary" name="crescent"></ion-spinner>
   </ion-card-content>
   

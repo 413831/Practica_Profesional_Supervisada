@@ -30,44 +30,42 @@ export class MenuPage implements OnInit {
       nombre: 'Bonitas',
       ruta: '/bonitas',
       src: "/assets/img/bonito.jpg",
+    },
+    {
+      nombre: 'Listado',
+      ruta: '/listado',
+      src: "/assets/img/photographer.png",
+    },
+    {
+      nombre: 'Puntajes',
+      ruta: '/graficos',
+      src: "/assets/img/statistics.png",
     }
   ];
   seleccionado: string = '/feas';
 
-  constructor(private router: Router,private loadingController: LoadingController)
+  constructor(private router: Router,private loadingController: LoadingController, 
+            private imagenService: ImagenService, private dataService: DataService)
   { 
+    
   }
 
-  ngOnInit() {
+  ngOnInit() 
+  {
+    this.presentLoading("Cargando fotos...");
+    this.dataService.gerUserDetail().then( data => this.imagenService.fetchUsuario(data.uid));
   }
 
   
   async presentLoading(message) {
     const loading = await this.loadingController.create({
       message,
-      duration: 2000,
+      duration: 3000,
       spinner: 'bubbles'
     });
     await loading.present();
   }
 
-  encodeImageUri(imageUri, callback) {
-    var canvas = document.createElement('canvas');
-    var context = canvas.getContext("2d");
-    var img = new Image();
-
-    img.onload = function () {
-      var aux:any = this;
-      canvas.width = aux.width;
-      canvas.height = aux.height;
-      context.drawImage(img, 0, 0);
-      var dataURL = canvas.toDataURL("image/jpeg");
-      var imagen = 
-      // Se utiliza el callback para retornar el URL de la imagen
-      callback(dataURL);
-    };
-    img.src = imageUri;
-  };
 
   navegar(ruta: string)
   {
