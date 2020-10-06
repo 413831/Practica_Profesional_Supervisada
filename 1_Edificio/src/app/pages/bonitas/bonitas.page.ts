@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Imagen, TipoImagen } from 'src/app/clases/imagen';
@@ -13,7 +13,7 @@ const { Camera } = Plugins;
   templateUrl: './bonitas.page.html',
   styleUrls: ['./bonitas.page.scss'],
 })
-export class BonitasPage implements OnInit {
+export class BonitasPage implements OnInit, DoCheck {
   usuario: Usuario;
   imagenes: Imagen[] = [];
 
@@ -35,6 +35,13 @@ export class BonitasPage implements OnInit {
     console.log("INIT");
      // Cargo las imagenes guardadas
      this.imagenes = ImagenService.fotosBonitas;
+  }
+
+  ngDoCheck(): void {
+    console.log("Do CHECK");
+      // Cargo las imagenes guardadas
+    this.imagenes = ImagenService.fotosBonitas;
+    
   }
 
   async subirFoto() 

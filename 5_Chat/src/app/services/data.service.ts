@@ -91,7 +91,7 @@ export class DataService {
         usuarios = [];  
         snapshot.forEach((child) =>{
           var data = child.val();
-          usuarios.push(Usuario.CrearUsuario(child.key, data.alias, data.division, data.email));
+          usuarios.push(Usuario.CrearUsuario(child.key, data.alias, data.division, data.email, data.rol));
         });
         console.info("Fetch Usuarios");
     })

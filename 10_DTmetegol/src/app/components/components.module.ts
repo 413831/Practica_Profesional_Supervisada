@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from './header/header.component';
 import { SplashComponent } from './splash/splash.component';
 import { JugadoresComponent } from './jugadores/jugadores.component';
+import { FotoComponent } from './foto/foto.component';
 
 
 
@@ -11,7 +12,8 @@ import { JugadoresComponent } from './jugadores/jugadores.component';
   declarations: [
     HeaderComponent,
     SplashComponent,
-    JugadoresComponent
+    JugadoresComponent,
+    FotoComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { JugadoresComponent } from './jugadores/jugadores.component';
   exports: [
     HeaderComponent,
     SplashComponent,
-    JugadoresComponent
+    JugadoresComponent,
+    FotoComponent
   ]
 })
 export class ComponentsModule { }

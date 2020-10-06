@@ -39,7 +39,7 @@ export class RegistroPage implements OnInit {
       this.dataService.registrar(this.usuario).then(res => {
         console.log("Usuario registrado");
         this.mensaje = "Se ha registrado exitosamente";
-        this.router.navigate(['/home']);
+        this.router.navigate(['/inicio']);
         this.modalController.dismiss();
       }, error => {
         console.error(error);

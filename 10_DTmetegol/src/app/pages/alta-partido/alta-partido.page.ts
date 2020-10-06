@@ -15,8 +15,8 @@ import { PartidosService } from 'src/app/services/partidos.service';
 })
 export class AltaPartidoPage implements OnInit {
   partido: Partido = new Partido();
-  equipoA: Equipo;
-  equipoB: Equipo;
+  equipoA: Equipo = new Equipo();
+  equipoB: Equipo = new Equipo();
   mensaje: string;
   fechaActual: string = new Date().toISOString(); 
   fecha;
@@ -32,6 +32,7 @@ export class AltaPartidoPage implements OnInit {
               private popoverController: PopoverController) { }
 
   ngOnInit() {
+    console.log(new Date().toISOString());
   }
 
   onSubmitTemplate() {
@@ -73,30 +74,31 @@ export class AltaPartidoPage implements OnInit {
       event: ev,
       translucent: true,
       mode: 'ios',
-      backdropDismiss: true,
-      
+      backdropDismiss: true
     });
     await popover.present();
 
-    const { data } = await popover.onWillDismiss();
+    popover.onWillDismiss().then( response => {
+      usuario = response.data.item;
+      console.log(usuario);
+      switch(equipo)
+      {
+        case TipoEquipo.A :
+          if(!this.equipoB.id || usuario.id != this.equipoB.id)
+          {
+            this.equipoA = Equipo.CrearEquipo(usuario.id, usuario.nombre, 0);
+          }
+          break;
+        case TipoEquipo.B :
+          if(!this.equipoA.id || usuario.id != this.equipoA.id)
+          {
+            this.equipoB = Equipo.CrearEquipo(usuario.id, usuario.nombre, 0);
+          }
+          break;
+      }
+    });
 
-    usuario = data.item;
-
-    switch(equipo)
-    {
-      case TipoEquipo.A :
-        if(usuario.id != this.equipoB.id)
-        {
-          this.equipoA = Equipo.CrearEquipo(usuario.id, usuario.nombre, 0);
-        }
-        break;
-      case TipoEquipo.B :
-        if(usuario.id != this.equipoA.id)
-        {
-          this.equipoB = Equipo.CrearEquipo(usuario.id, usuario.nombre, 0);
-        }
-        break;
-    }
+   
   }
 
   cambioFecha(event)

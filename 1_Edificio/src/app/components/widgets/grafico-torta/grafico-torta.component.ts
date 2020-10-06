@@ -37,7 +37,7 @@ export class GraficoTortaComponent implements OnInit {
 
 
   ngOnInit() {
-    this.fotos = ImagenService.fotosFeas;
+    this.fotos = ImagenService.fotosBonitas;
     if(this.fotos)
     {
       this.procesarDatos();   

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Imagen, TipoImagen } from 'src/app/clases/imagen';
@@ -13,7 +13,7 @@ const { Camera } = Plugins;
   templateUrl: './feas.page.html',
   styleUrls: ['./feas.page.scss'],
 })
-export class FeasPage implements OnInit {
+export class FeasPage implements OnInit, DoCheck {
   usuario: Usuario;
   imagenes: Imagen[] = [];
   
@@ -35,7 +35,14 @@ export class FeasPage implements OnInit {
   {
     console.log("INIT");
       // Cargo las imagenes guardadas
-      this.imagenes = ImagenService.fotosFeas;
+    this.imagenes = ImagenService.fotosFeas;
+  }
+
+  ngDoCheck(): void {
+    console.log("Do CHECK");
+      // Cargo las imagenes guardadas
+    this.imagenes = ImagenService.fotosFeas;
+    
   }
 
   async subirFoto() 

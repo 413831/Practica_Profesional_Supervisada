@@ -1,10 +1,18 @@
 <app-header titulo="Ranking"></app-header>
 
 <ion-content class="fondo">
-  <ion-list *ngFor="let usuario of usuarios">
+  <ion-list *ngFor="let usuario of usuarios; let i = index" class="contenido">
+    <ion-item >
+
+      <ion-chip color="tertiary" mode="ios" outline="false" class="ion-padding">
+        <h2><ion-label class="ion-padding">{{ i + 1 }}°</ion-label></h2>
+      </ion-chip>
+      
+      <h3><ion-label class="ion-margin-horizontal">{{usuario.nombre}}</ion-label></h3>
+      
+    </ion-item>
     <ion-item>
-      <h2><ion-label>{{usuario.nombre}}</ion-label></h2>
-      <ion-label>Partidos ganados:{{usuario.ganados}}</ion-label>
+      <ion-label class="ion-no-margin">Partidos ganados:{{usuario.ganados}}</ion-label>
     </ion-item>
   </ion-list>
 

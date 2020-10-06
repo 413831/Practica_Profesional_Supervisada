@@ -1,4 +1,5 @@
 import { Equipo } from './equipo';
+import { Imagen } from './imagen';
 
 export enum EResultado
 {
@@ -12,9 +13,9 @@ export class Partido
     equipoA: Equipo;
     equipoB: Equipo;
     fecha: string;
-    resultado: string;
+    imagen: string;
 
-    public static CrearPartido(id:string, equipoA: Equipo, equipoB: Equipo, fecha: string, resultado: string)
+    public static CrearPartido(id:string, equipoA: Equipo, equipoB: Equipo, fecha: string, imagen: string)
     {
         let partido = new Partido();
 
@@ -22,7 +23,7 @@ export class Partido
         partido.equipoA = equipoA;
         partido.equipoB = equipoB;
         partido.fecha = fecha;
-        partido.resultado = resultado;
+        partido.imagen = imagen;
 
         return partido;
     }

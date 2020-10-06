@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, DoCheck, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { Mensaje } from 'src/app/clases/mensaje';
 import { Usuario } from 'src/app/clases/usuario';
@@ -10,7 +10,7 @@ import { MensajesService, Salas } from 'src/app/services/mensajes.service';
   templateUrl: './sala4b.page.html',
   styleUrls: ['./sala4b.page.scss'],
 })
-export class Sala4bPage implements OnInit {
+export class Sala4bPage implements OnInit, DoCheck {
   usuario: Usuario = new Usuario();
   mensaje : Mensaje;
   mensajes: Mensaje[];
@@ -21,6 +21,10 @@ export class Sala4bPage implements OnInit {
   {
     this.mensajes = MensajesService.mensajes.filter(msj => msj.sala == Salas._4B);
   
+  }
+  
+  ngDoCheck(): void {
+    this.mensajes = MensajesService.mensajes.filter(msj => msj.sala == Salas._4B);
   }
 
   ngOnInit() 

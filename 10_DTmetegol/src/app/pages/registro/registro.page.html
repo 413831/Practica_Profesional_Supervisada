@@ -1,34 +1,34 @@
 <app-header titulo="Crear equipo"></app-header>
 
-<ion-content color="primary">
+<ion-content class="fondo">
   <div id="container">
     <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()" color="primary">
 
-      <ion-list>
+      <ion-list class="contenido">
 
         <ion-item color="primary">
           <ion-label mode="ios" position="floating">Equipo</ion-label>
-          <ion-input type="text" placeholder="Ingrese su nombre" name="nombre" [(ngModel)]="usuario.nombre" required>
+          <ion-input type="text"  name="nombre" [(ngModel)]="usuario.nombre" required>
           </ion-input>
         </ion-item>
 
         <ion-item color="primary">
           <ion-label mode="ios" position="floating">D.N.I. (sólo números)</ion-label>
-          <ion-input type="number" placeholder="Ingrese su número de DNI" name="dni" [(ngModel)]="usuario.dni"
+          <ion-input type="number"  name="dni" [(ngModel)]="usuario.dni"
             [pattern]="dniPattern" required>
           </ion-input>
         </ion-item>
 
         <ion-item color="primary">
           <ion-label mode="ios" position="floating">Correo electrónico</ion-label>
-          <ion-input type="email" placeholder="Ingrese email" name="email" [(ngModel)]="usuario.email"
+          <ion-input type="email"  name="email" [(ngModel)]="usuario.email"
             [pattern]="emailPattern" required>
           </ion-input>
         </ion-item>
 
         <ion-item color="primary">
           <ion-label mode="ios" position="floating">Contraseña</ion-label>
-          <ion-input type="password" placeholder="Ingrese password" name="password" [(ngModel)]="usuario.pass" required>
+          <ion-input type="password"  name="password" [(ngModel)]="usuario.pass" required>
           </ion-input>
         </ion-item>
 

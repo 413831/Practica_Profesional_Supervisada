@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FirebaseApp } from '@angular/fire';
 import { Router } from '@angular/router';
-import { ActionSheetController, ModalController, ToastController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, ModalController, ToastController, ViewDidLeave } from '@ionic/angular';
 import { Usuario } from 'src/app/clases/usuario';
 import { DataService } from 'src/app/services/data.service';
+import { PartidosService } from 'src/app/services/partidos.service';
 import { environment } from 'src/environments/environment';
 import { LoginPage } from '../login/login.page';
 import { RegistroPage } from '../registro/registro.page';
@@ -12,7 +14,8 @@ import { RegistroPage } from '../registro/registro.page';
   templateUrl: './inicio.page.html',
   styleUrls: ['./inicio.page.scss'],
 })
-export class InicioPage implements OnInit {
+export class InicioPage implements OnInit, ViewDidLeave
+{
   usuario: Usuario = new Usuario();
   perfiles = environment.usuario;
   rol: string = "";
@@ -21,10 +24,17 @@ export class InicioPage implements OnInit {
               private actionSheetCtrl: ActionSheetController,
               public toastController: ToastController,
               private dataService: DataService,
-              private modalController: ModalController) {}
+              private modalController: ModalController,
+              private partidoService: PartidosService,
+              private loadingController: LoadingController) {}
 
   ngOnInit() {
-   
+  }
+
+  ionViewDidLeave() {
+    this.dataService.leer();
+    this.partidoService.leer();
+    this.presentLoading("Ingresando...");
   }
 
   iniciarSesion(valor: string)
@@ -56,7 +66,6 @@ export class InicioPage implements OnInit {
         this.router.navigate(['/menu']);
       }).
       catch( err => this.presentToast(err));
-
   }
 
   async presentarLogin() {
@@ -73,7 +82,6 @@ export class InicioPage implements OnInit {
     });
     return await modal.present();
   }
-
 
 
   async presentToast(message: string) {
@@ -113,6 +121,16 @@ export class InicioPage implements OnInit {
       }]
     });
     await actionSheet.present();
+  }
+
+  async presentLoading(message) {
+    const loading = await this.loadingController.create({
+      message,
+      duration: 2000,
+      spinner: 'lines',
+      mode: 'ios'
+    });
+    await loading.present();
   }
 
 

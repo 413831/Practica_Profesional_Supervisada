@@ -7,9 +7,9 @@
       <ion-list lines="none" class="contenido">
 
         <ion-item >
-          <ion-label mode="ios" position="fixed">Fecha : </ion-label>
-          <ion-datetime mode="ios" display-format="YYYY MMMM DD" min="2015-01-01" name="fecha"
-                      [ngModel]="fechaActual" (ionChange)="cambioFecha($event)">
+          <ion-label color="primary" mode="ios" position="fixed">Fecha : </ion-label>
+          <ion-datetime color="primary" mode="ios" display-format="YYYY MMMM DD" [min]="fechaActual" 
+                        name="fecha" [ngModel]="fechaActual" (ionChange)="cambioFecha($event)">
           </ion-datetime>
         </ion-item>
 

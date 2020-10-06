@@ -4,10 +4,10 @@
   
   <ion-list #lista class="contenido">
     <ion-item-sliding *ngFor="let partido of partidos">
-      <ion-chip color="dark" outline="true">
-        <ion-label>Fecha{{partido.fecha | date:'short' }}</ion-label>
+      <ion-chip mode="ios" color="dark" outline="true">
+        <ion-label>Fecha{{ partido.fecha | date:'short' }}</ion-label>
       </ion-chip>
-      <ion-item>
+      <ion-item (click)="presentPopover($event, partido)">
 
         <ion-label>
           <h2>{{partido.equipoA.usuario}} </h2>
@@ -26,9 +26,15 @@
       </ion-item>
 
 
+      <ion-item-options side="start">
+        <ion-item-option color="tertiary" (click)="guardarFoto(partido)">
+          <ion-icon slot="icon-only" name="camera"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+
       <ion-item-options side="end">
         <ion-item-option color="success" (click)="mostrarVentana(partido)">
-          <ion-icon slot="icon-only" name="football"></ion-icon>
+          <ion-icon color="dark" slot="icon-only" name="football"></ion-icon>
         </ion-item-option>
       </ion-item-options>
 

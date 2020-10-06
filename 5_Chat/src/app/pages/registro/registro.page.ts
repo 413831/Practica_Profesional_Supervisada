@@ -11,7 +11,8 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class RegistroPage implements OnInit {
   usuario: Usuario = new Usuario();
-  pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$";  
+  emailPattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/; 
+  lettersPattern = /^[a-zA-Z ]{4,}$ /; 
   confirmacionPass: string;
   mensaje: string;
 
@@ -39,11 +40,11 @@ export class RegistroPage implements OnInit {
         this.mensaje = "Se ha registrado exitosamente";
         this.router.navigate(['/home']);
         
-      }, error => {
+      }, 
+      error => {
         console.error(error);
         this.mensaje = error.message;
       }).finally( () => this.presentToast());
-    
     }
     
   }

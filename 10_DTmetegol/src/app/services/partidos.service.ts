@@ -38,7 +38,7 @@ export class PartidosService {
           snapshot.forEach((child) =>{
             var data: Partido = child.val();
             partidos.push(Partido.CrearPartido(child.key, data.equipoA, data.equipoB, 
-                                                data.fecha, data.resultado));
+                                                data.fecha, data.imagen));
           });
           console.log(partidos);
           // Se cargan los partidos

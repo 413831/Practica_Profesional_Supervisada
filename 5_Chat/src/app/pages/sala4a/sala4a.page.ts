@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewChecked, Component, DoCheck, EventEmitter, OnInit, Output } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { Mensaje } from 'src/app/clases/mensaje';
 import { Usuario } from 'src/app/clases/usuario';
@@ -10,7 +10,7 @@ import { MensajesService, Salas } from 'src/app/services/mensajes.service';
   templateUrl: './sala4a.page.html',
   styleUrls: ['./sala4a.page.scss'],
 })
-export class Sala4aPage implements OnInit {
+export class Sala4aPage implements OnInit, DoCheck {
   usuario: Usuario = new Usuario();
   mensaje : Mensaje;
   mensajes: Mensaje[];
@@ -18,6 +18,11 @@ export class Sala4aPage implements OnInit {
   color: string = "secondary";
 
   constructor(private dataService: DataService, private mensajeService: MensajesService) 
+  {
+    this.mensajes = MensajesService.mensajes.filter(msj => msj.sala == Salas._4A);
+  }
+
+  ngDoCheck(): void 
   {
     this.mensajes = MensajesService.mensajes.filter(msj => msj.sala == Salas._4A);
   }

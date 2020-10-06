@@ -17,6 +17,7 @@ export class RankingPage implements OnInit {
 
   ngOnInit() 
   {
+    console.log(DataService.usuarios);
     this.usuarios = DataService.usuarios.sort((a,b)=> this.ordenarPorGanados(a,b)).slice(0,5);
   }
 
@@ -24,11 +25,11 @@ export class RankingPage implements OnInit {
   {
     if(equipoA.ganados > equipoB.ganados)
     {
-      return 1;
+      return -1;
     }
     else if(equipoA.ganados < equipoB.ganados)
     {
-      return -1;
+      return 1;
     }
     else
     {

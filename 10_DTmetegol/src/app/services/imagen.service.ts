@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import { Imagen, TipoImagen } from '../clases/imagen';
+import { Imagen } from '../clases/imagen';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
@@ -8,6 +8,8 @@ import { database } from 'firebase';
 import { ToastController } from '@ionic/angular';
 import { Usuario } from '../clases/usuario';
 import { UploadMetadata } from '@angular/fire/storage/interfaces';
+import { Partido } from '../clases/partido';
+import { PartidosService } from './partidos.service';
 
 const { Camera } = Plugins;
 
@@ -15,21 +17,18 @@ const { Camera } = Plugins;
   providedIn: 'root'
 })
 export class ImagenService {
-  public static fotosFeas: Imagen[] = [];
-  public static fotosBonitas: Imagen[] = [];
-  public static fotosUsuario: Imagen[] = [];
   public static imagenes = [];
 
-  constructor(private storage : AngularFireStorage, private toastController: ToastController) 
+  constructor(private storage : AngularFireStorage, private toastController: ToastController,
+              private partidoService: PartidosService) 
   {
   }
 
-  async sacarFoto(usuario: Usuario, tipo: TipoImagen) : Promise<Imagen>
+  async sacarFoto(usuario: Usuario, partido: Partido) : Promise<Imagen>
   {
     let imagen: Imagen = new Imagen();
-    let carpeta;
 
-    Camera.getPhoto({
+    Camera.getPhoto({      
       quality: 90,
       resultType: CameraResultType.Base64,
       correctOrientation: true,
@@ -38,47 +37,47 @@ export class ImagenService {
       promptLabelCancel: 'Cancelar',
       promptLabelPhoto: 'Subir desde galería',
       promptLabelPicture: 'Nueva foto',
+      presentationStyle: "popover",
+      webUseInput: true,
+      
       
     })
     .then( imageData => {
       console.log(imageData);
       imagen.base64 = imageData.base64String;
       imagen.fecha = new Date().toUTCString();
-      imagen.usuario = usuario.id;
+      imagen.usuario = partido.id;
       imagen.nombreUsuario = usuario.nombre;
-      imagen.tipo = tipo;
-      imagen.votos = [];
   
-      if(tipo == TipoImagen.POSITIVA)
-      {
-        ImagenService.fotosBonitas.push(imagen);
-        //ImagenService.fotosBonitas.sort((a,b) => this.comparadorFechas(a.fecha,b.fecha));
-        carpeta = "bonitas";
-      }
-      else if(tipo == TipoImagen.NEGATIVA)
-      {
-        ImagenService.fotosFeas.push(imagen);
-        carpeta = "feas";
-      }
-
       // Se sube imagen a Base de Datos
       this.crear(imagen).then( img => {
         imagen = img;
         // Se guarda imagen en el Storage
-        this.guardarImagen(imagen, carpeta)
-            .then(snapshot => snapshot.ref.getDownloadURL()
-                                      .then(res => imagen.url = res))
-            .finally(() => this.actualizar(imagen));
+        this.guardarImagen(imagen)
+            .then(snapshot => 
+            {
+              snapshot.ref.getDownloadURL()
+                      .then(res => 
+                      {
+                        imagen.url = res;
+                        partido.imagen = res;
+                      })
+            })
+            .finally(() => 
+            {
+              this.actualizar(imagen);
+              this.partidoService.actualizar(partido);
+            });
       })
       .catch(console.error);
     })
     .catch( error => {
       this.presentToast(error);
     })
-    return imagen;
+    return await imagen;
   }
 
-  async guardarImagen(imagen: Imagen, carpeta: string)
+  async guardarImagen(imagen: Imagen)
   {
     console.log("Guardar imagen-----------------------");
     const metadata: UploadMetadata = {
@@ -87,26 +86,24 @@ export class ImagenService {
         user : imagen.usuario,
         userName : imagen.nombreUsuario,
         date : imagen.fecha,
-        puntaje: imagen.votos.length.toString()
       }
     };
 
     console.log(imagen);
     // Se sube imagen al Firebase Storage
-    return this.storage.ref(`${carpeta}/${imagen.id}`)
+    return this.storage.ref(`partidos/${imagen.id}`)
                         .putString(imagen.base64, firebase.storage.StringFormat.BASE64, metadata);
   }
 
   public async descargarImagen(carpeta: string, usuario: string)
   {
-    return this.storage.ref(`${carpeta}/${usuario}`).getDownloadURL()
+    return this.storage.ref(`partidos/${usuario}`).getDownloadURL()
   }
 
   private async crear(imagen: Imagen)
   {
     console.log(imagen);
-    database().ref('imagenes')
-                    .push()
+    database().ref('fotos_partidos').push()
                     .then( snapshot => imagen.id = snapshot.key)
                     .catch(() => console.info("No se pudo realizar alta"));
     return imagen;
@@ -114,7 +111,7 @@ export class ImagenService {
 
   public actualizar(imagen: Imagen): Promise<any>
   {
-    return database().ref('imagenes/' + imagen.id)
+    return database().ref('fotos_partidos/' + imagen.id)
                     .update(imagen)
                     .then(() => console.info("Actualizacion exitosa"))
                     .catch(() => console.info("No se pudo actualizar"));
@@ -122,7 +119,7 @@ export class ImagenService {
 
   public borrar(id: number): Promise<any>
   {
-    return database().ref('imagenes/' + id)
+    return database().ref('fotos_partidos/' + id)
                     .remove()
                     .then(() => console.info("Imagen eliminada"))
                     .catch(() => console.info("No se pudo realizar la baja."));
@@ -130,7 +127,7 @@ export class ImagenService {
 
   public async fetchAll()
   {
-    const fetch = await database().ref('imagenes').on('value',(snapshot) => 
+    const fetch = await database().ref('fotos_partidos').on('value',(snapshot) => 
     {
       ImagenService.imagenes = [];
 
@@ -138,37 +135,17 @@ export class ImagenService {
       {
         var data = child.val();
         let aux = Imagen.CrearImagen(data.id, data.base64, data.url, data.usuario, data.nombreUsuario,
-                                      data.fecha, data.tipo, data.votos);
+                                      data.fecha);
         ImagenService.imagenes.push(aux);
         
       });
       console.info("Fetch de todas las imagenes");
       console.info(ImagenService.imagenes);
-      this.getFeas();
-      this.getLindas();
     });
     return fetch;
   }
 
-  public fetchUsuario(id: string)
-  {
-    ImagenService.fotosUsuario = ImagenService.imagenes.filter( img => img.usuario == id)
-                                                      .sort((a,b)=>this.comparadorFechas(a,b));
-  }
 
-  public getFeas()
-  {
-    ImagenService.fotosFeas = ImagenService.imagenes
-                  .filter( img => img.tipo == TipoImagen.NEGATIVA)
-                  .sort((a,b)=>this.comparadorFechas(a,b));
-  }
-
-  public getLindas()
-  {
-    ImagenService.fotosBonitas = ImagenService.imagenes
-                  .filter( img => img.tipo == TipoImagen.POSITIVA)
-                  .sort((a,b)=>this.comparadorFechas(a,b));
-  }
 
   async presentToast(message) {
     const toast = await this.toastController.create({
@@ -182,11 +159,11 @@ export class ImagenService {
   {
     let retorno;
 
-    if(new Date(fotoA.fecha).getTime() > new Date(fotoB.fecha).getTime())
+    if(new Date(fotoA.fecha).getMilliseconds() > new Date(fotoB.fecha).getMilliseconds())
     {
       retorno = -1;
     }
-    else if(new Date(fotoA.fecha).getTime() < new Date(fotoB.fecha).getTime())
+    else if(new Date(fotoA.fecha).getMilliseconds() < new Date(fotoB.fecha).getMilliseconds())
     {
       retorno = 1;
     }

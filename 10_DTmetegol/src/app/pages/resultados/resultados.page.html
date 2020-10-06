@@ -4,10 +4,10 @@
   
     <ion-list #lista class="contenido" *ngFor="let partido of partidos">
 
-        <ion-chip color="dark" outline="true">
+        <ion-chip mode="ios" color="dark" outline="true">
           <ion-label>Fecha:{{partido.fecha | date:'short' }}</ion-label>
         </ion-chip>
-        <ion-item>
+        <ion-item (click)="presentPopover($event, partido)">
   
           <ion-label>
             <h2>{{partido.equipoA.usuario}} </h2>

@@ -10,7 +10,8 @@ android {
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
 
-
+    implementation "androidx.exifinterface:exifinterface:1.2.0"
+    implementation "com.soundcloud.android:android-crop:1.0.0@aar"
 }
 
 

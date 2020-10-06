@@ -30,22 +30,16 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     //Called after every check of the component's view. Applies to components only.
     //Add 'implements AfterViewChecked' to the class.
     console.log("After View Checked");
-    console.log("Mensaje: ", this.mensaje);
     if(this.mensaje)
     {
+      console.log("Mensaje: ", this.mensaje);
       this.cargarMensaje();
     }
   }
 
   ngOnDestroy(): void {
 
-    // this.mensajes.forEach(mensaje => {
-    //   if(mensaje.id == '0')
-    //   {
-    //     console.info(mensaje);
-    //     this.mensajesService.crear(mensaje);
-    //   }
-    // });
+  
   }
 
   cargarMensaje()
