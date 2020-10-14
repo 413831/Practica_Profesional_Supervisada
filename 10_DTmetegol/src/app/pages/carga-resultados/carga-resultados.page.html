@@ -5,7 +5,7 @@
   <ion-list #lista class="contenido">
     <ion-item-sliding *ngFor="let partido of partidos">
       <ion-chip mode="ios" color="dark" outline="true">
-        <ion-label>Fecha{{ partido.fecha | date:'short' }}</ion-label>
+        <ion-label>Fecha :{{ partido.fecha | date:'short' }}</ion-label>
       </ion-chip>
       <ion-item (click)="presentPopover($event, partido)">
 

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController, PopoverController, ToastController } from '@ionic/angular';
 import { Usuario } from 'src/app/clases/usuario';
 import { PopinfoComponent } from 'src/app/components/popinfo/popinfo.component';
+import { AudioService } from 'src/app/services/audio.service';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -21,16 +22,17 @@ export class InicioPage implements OnInit {
               private dataService: DataService,
               public toastController: ToastController,
               private router: Router,
-              private popoverCtrl: PopoverController) { }
+              private popoverCtrl: PopoverController,
+              private audioService: AudioService) { }
 
   ngOnInit() {
+    
   }
 
 
   async promptSignIn() {
     const alert = await this.alertCtrl.create({
       translucent: true,
-      header: '¡Comenzar! :)',
       mode: "ios",
       inputs: [
         {
@@ -90,7 +92,6 @@ export class InicioPage implements OnInit {
   async promptSignUp() {
     const alert = await this.alertCtrl.create({
       translucent: true,
-      header: 'Registrarse :)',
       mode: "ios",
       inputs: [
         {

@@ -29,8 +29,8 @@ export class GraficoBarrasComponent implements OnInit {
   public data;
   public chartOptions;
   public fotos: Imagen[];
-  public semana: Dia[] = [Dia.Lunes, Dia.Martes, Dia.Miercoles, Dia.Jueves, 
-                Dia.Viernes, Dia.Sabado, Dia.Domingo];
+  public semana: Dia[] = [Dia.Domingo,Dia.Lunes, Dia.Martes, Dia.Miercoles, Dia.Jueves, 
+                Dia.Viernes, Dia.Sabado ];
   public assets: string[] = [];
 
   constructor() {
@@ -102,7 +102,7 @@ export class GraficoBarrasComponent implements OnInit {
          enabled: false
       },
       xAxis: {
-         categories: ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'],
+         categories: ['Domingo','Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
          crosshair: true
       },
       yAxis: {

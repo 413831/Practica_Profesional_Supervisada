@@ -31,6 +31,7 @@ export class MenuPage implements OnInit {
   } 
   deviceRef;
   posicion;
+  posicionAnterior = "";
   
   constructor(private platform: Platform, private deviceMotion: DeviceMotion, 
               private flashlight: Flashlight, private vibration: Vibration,   
@@ -83,48 +84,78 @@ export class MenuPage implements OnInit {
     {
       let option: DeviceMotionAccelerometerOptions = 
       {
-        frequency: 200
+        frequency: 500
       };
 
-      this.deviceRef = this.deviceMotion.watchAcceleration(option).subscribe((acc: DeviceMotionAccelerationData) => 
-      {
+      this.deviceRef = this.deviceMotion.watchAcceleration(option)
+      .subscribe((acc: DeviceMotionAccelerationData) => {
         this.ejeX = "" + acc.x;
         this.ejeY = "" + acc.y;
         this.ejeZ = "" + acc.z;
         this.timeStamp = "" + acc.timestamp;
-        this.flashlight.switchOff();
 
-        if(this.posicion != 'izquierda' && this.ejeX > 1 && this.ejeX < 8)
+
+        if(this.ejeX > 1 && this.ejeX <= 9)
         {
-          this.posicion = 'izquierda';
-          this.audioService.play('izquierda');
+          console.log("IZQUIERDA");
+          this.posicion = "izquierda";
         }
 
-        if(this.posicion != 'derecha' && this.ejeX < -1 && this.ejeX > -8 )
+        if(this.ejeX < -1 && this.ejeX >= -9 )
         {
-          this.posicion = 'derecha';
-          this.audioService.play('derecha');
+          console.log("DERECHA");
+          this.posicion = "derecha";
         }
 
-        if(this.posicion != 'horizontal' && 
-          this.ejeX > 8 && this.ejeX < 11 || this.ejeX < -8 && this.ejeX > -11)
-        {
-          this.posicion = 'horizontal';       
-          this.audioService.play('horizontal');
-          this.vibration.vibrate(5000);
+        if(this.ejeX > 8 && this.ejeX <= 11 || this.ejeX < -8 && this.ejeX >= -11)
+        {   
+          console.log("HORIZONTAL");
+          this.posicion = "horizontal";
         }
 
-        if(this.posicion != 'vertical' && 
-            this.ejeX <= 1 && this.ejeX >= -1 || this.ejeX == 0 || this.ejeX == -0)
+        if(this.ejeX <= 2 && this.ejeX >= -2 || this.ejeX == 0 || this.ejeX == -0)
         {
-          this.posicion = 'vertical';
-          this.audioService.play('vertical');
-          setTimeout(() => {
-            this.flashlight.switchOn();
-          }, 5000);
-          this.flashlight.switchOff();
-        }
+          console.log("VERTICAL");
+          this.posicion = "vertical";  
+        } 
 
+        if(this.posicion != this.posicionAnterior)
+        {
+          switch(this.posicion)
+          {
+            case "vertical" :
+
+              this.audioService.play('vertical');
+              this.flashlight.switchOff();
+              setTimeout(() => {
+                this.flashlight.switchOn();
+              }, 5000);
+              this.flashlight.switchOff();
+              this.posicionAnterior = this.posicion;
+
+              break;
+            case "horizontal" :
+
+              this.vibration.vibrate(5000);
+              this.audioService.play('horizontal');
+              this.posicionAnterior = this.posicion;
+
+              break;
+            case "derecha" :
+
+              this.audioService.play('derecha');
+              this.posicionAnterior = this.posicion;
+
+              break;
+            case "izquierda" :
+
+              this.audioService.play('izquierda');
+              this.posicionAnterior = this.posicion;
+
+              break;
+          }
+        }
+       
 
       });
     }

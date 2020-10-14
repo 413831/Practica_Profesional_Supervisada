@@ -43,6 +43,8 @@ export class AudioService {
 
   preload(key: string, asset: string): Promise<any> 
   {
+    console.log(asset);
+
     return new Promise<any>( (resolve,reject) => {
       if(this.platform.is('cordova') && !this.forceWebAudio)
       {
@@ -72,10 +74,14 @@ export class AudioService {
 
   play(key: string): void {
 
+    console.log(key);
     let soundToPlay = this.sounds.find((sound) => 
     {
       return sound.key === key;
     });
+
+    console.log("SONIDO");
+    console.log(soundToPlay);
 
     if(soundToPlay.isNative)
     {

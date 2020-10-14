@@ -41,7 +41,7 @@ export class HomePage implements OnInit {
         {
           name: 'email',
           type: 'text',
-          placeholder: 'Ingrese su email',
+          placeholder: 'Ingrese su correo electrónico',
         },
         {
           name: 'password',

@@ -86,7 +86,7 @@ export class MenuPage implements OnDestroy, OnInit {
           }
         }, 
         {
-          text: 'Cancel',
+          text: 'Cancelar',
           icon: 'close-outline',
           role: 'cancel',
           handler: () => {
