@@ -1,2 +1,5 @@
-# Practica_Profesional_Supervisada
-Desarrollos con Ionic + Angular + Firebase para la materia Práctica Profesional Supervisada
+# Practica Profesional Supervisada
+- Desarrollo mobile híbrido con Ionic + Angular
+- Uso de plugins Cordova y Capacitor
+- Integracion con Firebase
+- Integración con APIs (Google, Facebook, Twitter, Github)
